@@ -259,6 +259,13 @@
       display: inline-block;
       vertical-align: middle;
       margin-left: 8px;
+      flex-shrink: 0;
+    }
+    .cta-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
     }
 
     .cta-subtext {
@@ -804,8 +811,11 @@
       color: var(--gray-800);
       background: var(--white);
       transition: border-color 0.15s;
-      min-height: 48px;
+      height: 48px;
       width: 100%;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
     }
     .form-group input::placeholder { color: var(--gray-300); }
     .form-group input:focus {
