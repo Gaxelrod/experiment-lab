@@ -782,7 +782,8 @@
 
     /* ── INFO FORM ── */
     .info-form { display: flex; flex-direction: column; gap: 14px; }
-    .form-row { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: flex; gap: 12px; }
+    .form-row .form-group { min-width: 0; }
     .form-group {
       flex: 1;
       display: flex;
@@ -804,6 +805,7 @@
       background: var(--white);
       transition: border-color 0.15s;
       min-height: 48px;
+      width: 100%;
     }
     .form-group input::placeholder { color: var(--gray-300); }
     .form-group input:focus {
