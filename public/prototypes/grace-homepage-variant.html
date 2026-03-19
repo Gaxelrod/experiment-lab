@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grace Loan Advance - Get Cash Fast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #f5a623;
+      --orange-hover: #e09100;
+      --orange-light: #fef7ec;
+      --orange-subtle: #fdf2de;
+      --green-dark: #1a3a2a;
+      --green-mid: #2d5a3f;
+      --green-text: #567854;
+      --green-light: #f0f7f1;
+      --gray-50: #fafafa;
+      --gray-100: #f5f5f5;
+      --gray-200: #e5e5e5;
+      --gray-300: #d4d4d4;
+      --gray-400: #a3a3a3;
+      --gray-500: #737373;
+      --gray-600: #525252;
+      --gray-700: #404040;
+      --gray-800: #262626;
+      --gray-900: #171717;
+      --white: #ffffff;
+      --red: #dc2626;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.03);
+      --shadow-xl: 0 20px 50px -12px rgba(0,0,0,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      color: var(--gray-800);
+      line-height: 1.6;
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Fraunces', Georgia, serif;
+      line-height: 1.15;
+      color: var(--green-dark);
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--green-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--orange);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .header-cta {
+      display: none;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-decoration: none;
+    }
+    .header-cta:hover { background: var(--orange-hover); }
+    @media (min-width: 640px) { .header-cta { display: block; } }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 48px 24px 56px;
+      background: linear-gradient(175deg, var(--white) 0%, var(--green-light) 50%, var(--orange-subtle) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--green-text);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--orange);
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--gray-600);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      padding: 32px 24px;
+      max-width: 480px;
+      margin: 0 auto 24px;
+      border: 1px solid var(--gray-200);
+    }
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 8px;
+    }
+    .amount-display {
+      font-family: 'Fraunces', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--green-dark);
+      text-align: center;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+    .amount-range-label {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-bottom: 16px;
+    }
+
+    /* ── RANGE SLIDER ── */
+    .slider-container { padding: 0 4px; margin-bottom: 24px; }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 100px;
+      background: linear-gradient(to right, var(--orange) 0%, var(--orange) var(--fill, 50%), var(--gray-200) var(--fill, 50%), var(--gray-200) 100%);
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 3px solid var(--orange);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      cursor: grab;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+      box-shadow: 0 2px 12px rgba(245,166,35,0.3);
+    }
+    input[type="range"]::-webkit-slider-thumb:active { cursor: grabbing; }
+    input[type="range"]::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 3px solid var(--orange);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      cursor: grab;
+    }
+    input[type="range"]:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 4px;
+      border-radius: 100px;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      letter-spacing: 0.01em;
+    }
+    .cta-button:hover { background: var(--orange-hover); }
+    .cta-button:active { transform: scale(0.98); }
+    .cta-button:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 3px;
+    }
+
+    .cta-subtext {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cta-subtext span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-disclosure {
+      text-align: center;
+      font-size: 11px;
+      color: var(--gray-400);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    .hero-disclosure a { color: var(--gray-500); }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      background: var(--green-dark);
+      padding: 20px 24px;
+    }
+    .trust-bar-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.9);
+    }
+    .trust-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+    .trust-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+    .trust-value {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--white);
+    }
+    @media (min-width: 640px) {
+      .trust-bar-inner { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works {
+      padding: 80px 24px;
+      background: var(--white);
+    }
+    .section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--orange);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .step {
+      text-align: center;
+      padding: 32px 24px;
+      border-radius: var(--radius-lg);
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      position: relative;
+    }
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .step h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    .step p {
+      font-size: 15px;
+      color: var(--gray-500);
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    .step-time {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green-text);
+      background: var(--green-light);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    @media (min-width: 768px) {
+      .steps { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      padding: 80px 24px;
+      background: var(--gray-50);
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .testimonial {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+    }
+    .testimonial-stars {
+      color: var(--orange);
+      font-size: 16px;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .testimonial-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--gray-700);
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    .testimonial-author {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+    .testimonial-meta {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+    @media (min-width: 768px) {
+      .testimonial-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      padding: 80px 24px;
+      background: var(--white);
+    }
+    .faq-list {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gray-800);
+      gap: 16px;
+      min-height: 44px;
+    }
+    .faq-question:hover { color: var(--green-dark); }
+    .faq-question:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      transition: transform 0.2s;
+      color: var(--gray-400);
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 20px;
+    }
+    .faq-answer p {
+      font-size: 15px;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      padding: 80px 24px;
+      background: var(--green-dark);
+      text-align: center;
+    }
+    .final-cta h2 {
+      color: var(--white);
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .final-cta p {
+      color: rgba(255,255,255,0.7);
+      font-size: 18px;
+      margin-bottom: 32px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .final-cta .cta-button {
+      max-width: 320px;
+      margin: 0 auto;
+      font-size: 18px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 40px 24px;
+      background: var(--gray-900);
+      color: var(--gray-400);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .footer-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .footer-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .footer-links a:hover { color: var(--gray-200); }
+    .footer-legal { margin-top: 16px; }
+    .footer-legal p { margin-bottom: 12px; }
+
+    /* ── RESPONSIVE ── */
+    @media (min-width: 640px) {
+      .hero { padding: 64px 24px 72px; }
+      .hero h1 { font-size: 48px; }
+      .hero-sub { font-size: 20px; }
+      .form-card { padding: 40px 32px; }
+      .amount-display { font-size: 56px; }
+      .section-title { font-size: 36px; }
+      .final-cta h2 { font-size: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <a href="#" class="logo">
+      <div class="logo-icon">G</div>
+      GraceLoanAdvance
+    </a>
+    <a href="#apply" class="header-cta">Check My Options</a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="apply">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        2,847 people checked their options today
+      </div>
+
+      <h1>Need cash <em>fast?</em><br>See if you qualify in 60 seconds</h1>
+
+      <p class="hero-sub">
+        100% free to check. No credit score impact. No obligation.
+      </p>
+
+      <!-- EMBEDDED FORM -->
+      <div class="form-card">
+        <label for="loan-amount" class="form-label">How much do you need?</label>
+        <div class="amount-display" id="amount-display">$3,000</div>
+        <div class="amount-range-label">$500 &mdash; $10,000</div>
+        <div class="slider-container">
+          <input
+            type="range"
+            id="loan-amount"
+            min="500"
+            max="10000"
+            step="100"
+            value="3000"
+            aria-label="Loan amount"
+            aria-valuemin="500"
+            aria-valuemax="10000"
+            aria-valuenow="3000"
+          >
+        </div>
+        <button type="button" class="cta-button" onclick="window.location.href='#'">
+          Check My Options
+        </button>
+        <div class="cta-subtext">
+          <span>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Free, no fees
+          </span>
+          <span>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            No credit impact
+          </span>
+          <span>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Takes 60 seconds
+          </span>
+        </div>
+      </div>
+
+      <p class="hero-disclosure">
+        Checking your options will not affect your credit score. By clicking "Check My Options," you agree to our
+        <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+        APR ranges from 5.99% to 35.99%. Loan terms from 91 days to 72 months.
+      </p>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <section class="trust-bar" aria-label="Trust indicators">
+    <div class="trust-bar-inner">
+      <div class="trust-item">
+        <div class="trust-icon" aria-hidden="true">$</div>
+        <div>
+          <div class="trust-label">Total funded</div>
+          <div class="trust-value">$48M+</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon" aria-hidden="true">&#9733;</div>
+        <div>
+          <div class="trust-label">Rating</div>
+          <div class="trust-value">4.6 / 5.0</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon" aria-hidden="true">&#128274;</div>
+        <div>
+          <div class="trust-label">Your data</div>
+          <div class="trust-value">256-bit encrypted</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon" aria-hidden="true">&#9889;</div>
+        <div>
+          <div class="trust-label">Funding speed</div>
+          <div class="trust-value">Next business day</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="section-inner">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">Three steps. That's it.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Tell us what you need</h3>
+          <p>Slide to your amount and answer a few basic questions. No paperwork.</p>
+          <span class="step-time">~60 seconds</span>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>See your options</h3>
+          <p>We match you with lenders competing to offer you the best terms.</p>
+          <span class="step-time">~2 minutes</span>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Get your money</h3>
+          <p>Accept an offer and funds are deposited directly into your bank account.</p>
+          <span class="step-time">As soon as next day</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="section-inner">
+      <div class="section-label">Real stories</div>
+      <h2 class="section-title">People like you got funded</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial">
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-text">"I was approved in literally 5 minutes. The money was in my account the next morning. I've never had something this easy."</p>
+          <div class="testimonial-author">Marcus T.</div>
+          <div class="testimonial-meta">Georgia &middot; $2,500 funded</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-text">"I was scared it would hurt my credit or have hidden fees. It didn't. Checked my options, picked one, done. No surprises."</p>
+          <div class="testimonial-author">Ashley R.</div>
+          <div class="testimonial-meta">Texas &middot; $4,000 funded</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-text">"My car broke down and I needed cash fast. Applied on my phone during lunch break and had options within minutes."</p>
+          <div class="testimonial-author">James D.</div>
+          <div class="testimonial-meta">Florida &middot; $1,500 funded</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="section-inner">
+      <div class="section-label">Common questions</div>
+      <h2 class="section-title">We get it. You have questions.</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Will this affect my credit score?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>No. Checking your options uses a soft credit inquiry, which does not affect your credit score. A hard inquiry only happens if you choose to accept a specific loan offer from a lender.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Is there a fee to use this service?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>No. GraceLoanAdvance is 100% free to use. There are no application fees, no hidden charges, and no obligation to accept any offer you receive.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How fast can I get the money?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>Most lenders can deposit funds as soon as the next business day after you accept an offer. Some lenders may offer same-day funding depending on your bank.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What are the requirements?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>Basic requirements include being 18 or older, having a regular source of income, an active bank account, and a valid email address and phone number. Even if your credit isn't perfect, you may still qualify.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What if I have bad credit?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>We work with a wide network of lenders, many of whom specialize in working with borrowers who have less-than-perfect credit. Checking your options is free and won't affect your score — there's no risk in seeing what's available to you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <h2>Ready to see your options?</h2>
+    <p>It takes 60 seconds, it's free, and it won't affect your credit.</p>
+    <button type="button" class="cta-button" onclick="document.getElementById('loan-amount').focus(); window.scrollTo({top: 0, behavior: 'smooth'});">
+      Get Started Now
+    </button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Lending Policy</a>
+        <a href="#">Rates &amp; Fees</a>
+        <a href="#">Do Not Sell My Info</a>
+        <a href="#">Unsubscribe</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-legal">
+        <p>GraceLoanAdvance is a service of RBD Enterprises, LLC. We are not a lender. We connect borrowers with a network of lenders and lending partners. We do not make credit decisions, broker loans, or make short-term cash loans.</p>
+        <p>APR ranges from 5.99% to 35.99%. Loan terms range from a 91-day minimum to a 72-month maximum. Example: A $5,000 loan with 36 monthly payments at 15% APR would result in estimated monthly payments of $173.33.</p>
+        <p>Not all applicants will qualify for a loan or the maximum amount. Loan availability and terms vary based on creditworthiness and state regulations. Submitting a request does not guarantee an offer.</p>
+        <p>&copy; 2015&ndash;2026 RBD Enterprises, LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Loan amount slider
+    const slider = document.getElementById('loan-amount');
+    const display = document.getElementById('amount-display');
+
+    function updateSlider() {
+      const val = parseInt(slider.value);
+      display.textContent = '$' + val.toLocaleString();
+      const pct = ((val - 500) / (10000 - 500)) * 100;
+      slider.style.setProperty('--fill', pct + '%');
+      slider.setAttribute('aria-valuenow', val);
+    }
+
+    slider.addEventListener('input', updateSlider);
+    updateSlider();
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const isOpen = item.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+
+        // Toggle clicked
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

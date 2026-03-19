@@ -47,6 +47,20 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
       </p>
     </div>
 
+    <!-- Prototype Link -->
+    {data.prototypeUrl && (
+      <a
+        href={data.prototypeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-2 bg-epcvip-yellow/10 border border-epcvip-yellow/30 rounded-md px-4 py-3 mb-4 text-epcvip-yellow text-sm font-semibold hover:bg-epcvip-yellow/15 transition-colors"
+      >
+        <span class="text-base">&#9654;</span>
+        View Prototype
+        <span class="text-text-dim text-xs font-normal ml-auto">Opens in new tab</span>
+      </a>
+    )}
+
     <!-- Hypothesis -->
     <div class="bg-epcvip-surface rounded-md p-4 mb-4 border-l-[3px] border-l-epcvip-yellow">
       <div class="font-heading font-semibold text-epcvip-yellow text-[9px] uppercase tracking-[1.2px] mb-2">

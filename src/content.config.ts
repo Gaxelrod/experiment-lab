@@ -26,6 +26,7 @@ const concepts = defineCollection({
     duration: z.string().optional(),
     trafficSplit: z.string().optional(),
     platform: z.string().optional(),
+    prototypeUrl: z.string().optional(),
   }),
 });
 

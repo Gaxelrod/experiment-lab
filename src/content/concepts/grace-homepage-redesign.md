@@ -29,6 +29,7 @@ targetAudience: "All visitors landing on graceloanadvance.com homepage"
 duration: "3 weeks"
 trafficSplit: "50/50"
 platform: "Web - all viewports, mobile priority"
+prototypeUrl: "/prototypes/grace-homepage-variant.html"
 ---
 
 ## Background
