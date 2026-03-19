@@ -138,27 +138,31 @@ _Pending — test not yet launched._
 ```
 experimentation/
 ├── src/
+│   ├── content.config.ts          ← Astro content collection schema (Zod)
 │   ├── content/
-│   │   ├── concepts/           ← experiment markdown files
-│   │   │   ├── simplified-checkout.md
-│   │   │   ├── cta-color-test.md
-│   │   │   └── ...
-│   │   └── config.ts           ← Astro content collection schema
+│   │   └── concepts/              ← experiment markdown files
+│   │       ├── simplified-checkout.md
+│   │       ├── cta-color-test.md
+│   │       └── ...
+│   ├── lib/
+│   │   └── status.ts              ← status config: display order, colors, labels
+│   ├── styles/
+│   │   └── global.css             ← Tailwind v4 imports, @theme EPCVIP tokens
 │   ├── layouts/
-│   │   └── Base.astro          ← dark theme, font imports, page shell
+│   │   └── Base.astro             ← dark theme, font imports, page shell
 │   ├── pages/
-│   │   ├── index.astro         ← dashboard with all swimlanes
+│   │   ├── index.astro            ← dashboard with all swimlanes
 │   │   ├── status/
-│   │   │   └── [status].astro  ← filtered view (e.g., /status/ready)
+│   │   │   └── [status].astro     ← filtered view (e.g., /status/ready)
 │   │   └── concepts/
-│   │       └── [slug].astro    ← detail page (dynamic route)
+│   │       └── [slug].astro       ← detail page (dynamic route)
 │   └── components/
-│       ├── ConceptCard.astro   ← card used in swimlanes
-│       ├── StatusBadge.astro   ← colored status pill
-│       ├── MetricRow.astro     ← metric + target display
-│       └── FilterBar.astro     ← status filter tabs
+│       ├── ConceptCard.astro      ← card used in swimlanes
+│       ├── Swimlane.astro         ← one status row: label + card list
+│       ├── StatusBadge.astro      ← colored status pill
+│       ├── MetricRow.astro        ← metric + target display
+│       └── FilterBar.astro        ← status filter tabs
 ├── astro.config.mjs
-├── tailwind.config.mjs         ← EPCVIP color tokens
 └── package.json
 ```
 

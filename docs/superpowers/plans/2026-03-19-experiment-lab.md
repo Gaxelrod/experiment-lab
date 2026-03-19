@@ -116,6 +116,8 @@ Write `src/styles/global.css`:
 
 - [ ] **Step 5: Create favicon**
 
+Note: Step numbering is sequential — there is no Step 6 (the original Tailwind config step was merged into Step 4).
+
 Write `public/favicon.svg`:
 
 ```svg
