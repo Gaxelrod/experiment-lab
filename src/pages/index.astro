@@ -1,7 +1,33 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import FilterBar from '../components/FilterBar.astro';
+import Swimlane from '../components/Swimlane.astro';
+import { STATUS_ORDER } from '../lib/status';
+
+const allConcepts = await getCollection('concepts');
+const conceptsByStatus = STATUS_ORDER.map((status) => ({
+  status,
+  concepts: allConcepts.filter((c) => c.data.status === status),
+}));
+const total = allConcepts.length;
 ---
+
 <Base>
-  <h1 class="font-heading font-bold text-[28px] leading-[1.2] text-text-primary">Experiment Lab</h1>
-  <p class="text-text-muted mt-2">Scaffold working.</p>
+  <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-4 border-b border-epcvip-border">
+    <div class="flex items-center gap-3">
+      <div class="bg-epcvip-yellow text-epcvip-black font-heading font-extrabold text-xs px-2 py-1 rounded tracking-wider">
+        EPCVIP
+      </div>
+      <h1 class="font-heading font-bold text-[28px] leading-[1.2] text-text-primary">
+        Experiment Lab
+      </h1>
+      <span class="text-text-dim text-sm">{total} concepts</span>
+    </div>
+    <FilterBar />
+  </header>
+
+  {conceptsByStatus.map(({ status, concepts }) => (
+    <Swimlane status={status} concepts={concepts} />
+  ))}
 </Base>
