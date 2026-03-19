@@ -1,0 +1,133 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import MetricRow from '../../components/MetricRow.astro';
+
+export async function getStaticPaths() {
+  const concepts = await getCollection('concepts');
+  return concepts.map((concept) => ({
+    params: { slug: concept.id },
+    props: { concept },
+  }));
+}
+
+const { concept } = Astro.props;
+const { data } = concept;
+const { Content } = await render(concept);
+
+const contextFields = [
+  { label: 'Audience', value: data.targetAudience },
+  { label: 'Duration', value: data.duration },
+  { label: 'Split', value: data.trafficSplit },
+  { label: 'Platform', value: data.platform },
+].filter((f) => f.value);
+
+const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+
+<Base title={data.title}>
+  <div class="max-w-3xl mx-auto">
+    <!-- Back link -->
+    <a href="/" class="text-text-dim text-sm hover:text-text-muted transition-colors mb-6 inline-block">
+      <span class="text-epcvip-yellow">←</span> Back to all concepts
+    </a>
+
+    <!-- Header -->
+    <div class="mb-6">
+      <div class="flex items-center gap-2 mb-3">
+        <StatusBadge type="status" value={data.status} />
+        {data.priority && <StatusBadge type="priority" value={data.priority} />}
+      </div>
+      <h1 class="font-heading font-bold text-[28px] leading-[1.2] text-text-primary mb-2">
+        {data.title}
+      </h1>
+      <p class="text-text-dim text-sm">
+        Created {formatDate(data.created)} · Updated {formatDate(data.updated)} · <span class="text-text-muted">{data.tags.join(', ')}</span>
+      </p>
+    </div>
+
+    <!-- Hypothesis -->
+    <div class="bg-epcvip-surface rounded-md p-4 mb-4 border-l-[3px] border-l-epcvip-yellow">
+      <div class="font-heading font-semibold text-epcvip-yellow text-[9px] uppercase tracking-[1.2px] mb-2">
+        Hypothesis
+      </div>
+      <p class="text-text-secondary text-base leading-relaxed">
+        {data.hypothesis}
+      </p>
+    </div>
+
+    <!-- Variants -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+      {data.variants.map((variant, i) => (
+        <div class:list={[
+          'bg-epcvip-surface rounded-md p-4',
+          i === 0
+            ? 'border border-epcvip-border'
+            : 'border border-epcvip-yellow',
+        ]}>
+          <div class:list={[
+            'font-heading font-semibold text-[9px] uppercase tracking-wider mb-2',
+            i === 0 ? 'text-text-muted' : 'text-epcvip-yellow',
+          ]}>
+            {variant.name}
+          </div>
+          <p class="text-text-secondary text-sm leading-relaxed">
+            {variant.description}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Success Metrics -->
+    <div class="mb-4">
+      <h2 class="font-heading font-semibold text-text-muted text-[9px] uppercase tracking-[1.2px] mb-3">
+        Success Metrics
+      </h2>
+      <div class="flex flex-col gap-1">
+        {data.successMetrics.map((metric) => (
+          <MetricRow name={metric.name} target={metric.target} isPrimary={metric.isPrimary} />
+        ))}
+      </div>
+    </div>
+
+    <!-- Guardrails -->
+    {data.guardrails && data.guardrails.length > 0 && (
+      <div class="mb-4">
+        <h2 class="font-heading font-semibold text-text-muted text-[9px] uppercase tracking-[1.2px] mb-3">
+          Guardrails
+        </h2>
+        <div class="space-y-1">
+          {data.guardrails.map((g) => (
+            <p class="text-epcvip-red text-sm">
+              <span class="text-epcvip-yellow">⚠</span> {g}
+            </p>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Context metadata -->
+    {contextFields.length > 0 && (
+      <div class="flex flex-wrap gap-4 text-text-dim text-sm border-t border-epcvip-border pt-4 mb-8">
+        {contextFields.map((field) => (
+          <span>
+            <span class="text-text-muted">{field.label}:</span> {field.value}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <!-- Markdown body -->
+    <div class="prose prose-invert prose-sm max-w-none
+      prose-headings:font-heading prose-headings:text-text-primary prose-headings:font-semibold
+      prose-p:text-text-secondary prose-p:leading-relaxed
+      prose-li:text-text-secondary
+      prose-strong:text-text-primary
+      prose-code:text-epcvip-yellow prose-code:bg-epcvip-surface prose-code:px-1 prose-code:rounded
+      prose-a:text-epcvip-yellow prose-a:no-underline hover:prose-a:underline
+      border-t border-epcvip-border pt-6">
+      <Content />
+    </div>
+  </div>
+</Base>
