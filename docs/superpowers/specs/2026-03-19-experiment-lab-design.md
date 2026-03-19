@@ -21,12 +21,13 @@ The site is a solo tool — no auth, no multi-user features, no admin interface.
 
 ### Dashboard (index)
 
-- Status swimlanes group concepts by lifecycle stage: **Ready**, **Running**, **Draft**, **Complete**, **Killed**
+- Status swimlanes group concepts by lifecycle stage, displayed in this order: **Draft**, **Ready**, **Running**, **Complete**, **Killed**
+- Within each swimlane, cards are sorted by `updated` date (most recent first)
 - Each swimlane shows a horizontal row of concept cards
-- Cards display: title, hypothesis snippet (first ~80 chars), tags
-- Running cards show progress (e.g., "Day 5/14")
-- Complete cards show outcome data inline (e.g., "+22% recovery rate")
-- Filter tabs across the top to show all or a single status
+- Cards display: title, hypothesis (truncated to 80 characters at nearest word boundary with ellipsis), tags
+- Complete cards show the `outcome` field inline if present (e.g., "+22% recovery rate")
+- Swimlanes with zero concepts are hidden entirely
+- Filter tabs across the top to show all or a single status. Filtering works via page navigation: `/` shows all, `/status/ready` shows only ready, etc. Each filter view is a pre-rendered static page.
 - Click any card to navigate to detail page
 
 ### Detail Page (`/concepts/[slug]`)
@@ -34,7 +35,7 @@ The site is a solo tool — no auth, no multi-user features, no admin interface.
 - Back link to dashboard
 - Header: status badge, priority badge, title (Montserrat 700), date and tag metadata
 - **Hypothesis block** — visually prominent with yellow left border
-- **Variants** — displayed side-by-side as cards. Control is neutral, variant(s) highlighted with yellow border
+- **Variants** — displayed side-by-side as cards on desktop, stacked vertically on mobile. Control is neutral, variant(s) highlighted with yellow border
 - **Success Metrics** — list with metric name, target value, and primary indicator badge
 - **Guardrails** — list with warning icons, separate from success metrics
 - **Context metadata** — footer strip showing optional fields (audience, duration, traffic split, platform)
@@ -66,6 +67,7 @@ successMetrics:            # required — at least 1
     isPrimary: boolean     # exactly one should be true
 
 guardrails: string[]       # optional — "don't break this" constraints
+outcome: string            # optional — short result summary shown on dashboard card (e.g., "+22% conversion")
 
 # Optional context fields
 targetAudience: string
@@ -145,7 +147,9 @@ experimentation/
 │   ├── layouts/
 │   │   └── Base.astro          ← dark theme, font imports, page shell
 │   ├── pages/
-│   │   ├── index.astro         ← dashboard with swimlanes
+│   │   ├── index.astro         ← dashboard with all swimlanes
+│   │   ├── status/
+│   │   │   └── [status].astro  ← filtered view (e.g., /status/ready)
 │   │   └── concepts/
 │   │       └── [slug].astro    ← detail page (dynamic route)
 │   └── components/
@@ -198,11 +202,26 @@ experimentation/
 | Complete | `epcvip-green` | `epcvip-green` | `rgba(42,107,63,0.15)` |
 | Killed | `epcvip-red` | `epcvip-red` | `rgba(192,64,64,0.15)` |
 
+### Priority Colors
+
+| Priority | Text | Badge background |
+|----------|------|-----------------|
+| High | `epcvip-red` | `rgba(192,64,64,0.15)` |
+| Medium | `epcvip-yellow` | `rgba(242,199,68,0.15)` |
+| Low | `text-muted` | `rgba(85,85,85,0.15)` |
+
+### UI Details
+
+- **Tags** on cards and detail pages are display-only labels, not clickable filters
+- **Hypothesis truncation** on cards: truncate at nearest word boundary before 80 characters, append ellipsis
+- **Variants** display side-by-side (flex row) on desktop, stack vertically on screens below 640px
+- **Site title:** "Experiment Lab | EPCVIP" — use EPCVIP favicon (yellow square logo on black)
+
 ## Tech Stack
 
 - **Astro** — static site generator with content collections
 - **Tailwind CSS** — utility-first styling with EPCVIP design tokens
-- **No JS framework** — Astro components only, zero client-side JavaScript
+- **No JS framework** — Astro components only, minimal client-side JavaScript (filter tabs only)
 - **No database** — markdown files are the data layer
 - **No auth** — solo tool, no login needed
 
