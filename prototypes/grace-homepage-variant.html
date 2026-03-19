@@ -579,12 +579,14 @@
       background: var(--white);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-xl);
-      padding: 40px 32px;
+      padding: 32px 24px;
       max-width: 440px;
       width: 100%;
       text-align: center;
       transform: translateY(16px) scale(0.97);
       transition: transform 0.25s ease;
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
     }
     .overlay.active .overlay-card {
       transform: translateY(0) scale(1);
