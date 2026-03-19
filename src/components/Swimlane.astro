@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { STATUS_CONFIG } from '../lib/status';
+import ConceptCard from './ConceptCard.astro';
+
+interface Props {
+  status: string;
+  concepts: CollectionEntry<'concepts'>[];
+}
+
+const { status, concepts } = Astro.props;
+const config = STATUS_CONFIG[status as keyof typeof STATUS_CONFIG];
+
+// Sort by updated date, most recent first (toSorted avoids mutating the prop)
+const sorted = [...concepts].sort((a, b) =>
+  new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime()
+);
+---
+
+{sorted.length > 0 && (
+  <section class="mb-6">
+    <div class="flex items-center gap-2 mb-3">
+      <div class:list={['w-2 h-2 rounded-full', config.dotColor]} />
+      <span class:list={[
+        'font-heading font-semibold text-[9px] uppercase tracking-[1.2px]',
+        config.textColor,
+      ]}>
+        {config.label}
+      </span>
+      <span class="text-text-dim text-[9px]">({sorted.length})</span>
+    </div>
+    <div class="flex gap-3 overflow-x-auto pb-2">
+      {sorted.map((concept) => (
+        <ConceptCard
+          slug={concept.id}
+          title={concept.data.title}
+          status={concept.data.status}
+          hypothesis={concept.data.hypothesis}
+          tags={concept.data.tags}
+          outcome={concept.data.outcome}
+        />
+      ))}
+    </div>
+  </section>
+)}

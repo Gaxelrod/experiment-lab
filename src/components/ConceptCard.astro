@@ -1,0 +1,43 @@
+---
+import { STATUS_CONFIG, truncateHypothesis } from '../lib/status';
+
+interface Props {
+  slug: string;
+  title: string;
+  status: string;
+  hypothesis: string;
+  tags: string[];
+  outcome?: string;
+}
+
+const { slug, title, status, hypothesis, tags, outcome } = Astro.props;
+const config = STATUS_CONFIG[status as keyof typeof STATUS_CONFIG];
+---
+
+<a
+  href={`/concepts/${slug}`}
+  class:list={[
+    'block bg-epcvip-surface border border-epcvip-border border-l-[3px] rounded p-3 min-w-[220px] max-w-[280px] hover:border-epcvip-border/80 transition-colors',
+    config.borderColor,
+    status === 'draft' && 'opacity-60',
+  ]}
+>
+  <h3 class="font-heading font-semibold text-sm text-text-primary mb-1 leading-tight">
+    {title}
+  </h3>
+  <p class="text-text-dim text-[11px] mb-2 leading-snug">
+    {truncateHypothesis(hypothesis)}
+  </p>
+  {outcome && (
+    <p class:list={['text-[11px] font-semibold mb-2', config.textColor]}>
+      {outcome}
+    </p>
+  )}
+  <div class="flex flex-wrap gap-1">
+    {tags.map((tag) => (
+      <span class="bg-epcvip-black border border-epcvip-border text-text-muted text-[8px] px-1.5 py-0.5 rounded">
+        {tag}
+      </span>
+    ))}
+  </div>
+</a>
