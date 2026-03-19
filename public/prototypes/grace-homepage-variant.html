@@ -127,12 +127,58 @@
       background: radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
+    .hero-layout {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
     .hero-inner {
       max-width: 640px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
       text-align: center;
+    }
+    .hero-image {
+      display: none;
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+    }
+    @media (min-width: 960px) {
+      .hero-layout {
+        grid-template-columns: 1fr 420px;
+        text-align: left;
+      }
+      .hero-inner {
+        text-align: left;
+        margin: 0;
+      }
+      .hero-image {
+        display: block;
+        height: 480px;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+      .form-card {
+        margin: 0 0 24px;
+      }
+      .hero-disclosure {
+        text-align: left !important;
+        margin: 0 !important;
+      }
+      .hero-badge {
+        margin-left: 0;
+      }
     }
     .hero-badge {
       display: inline-flex;
@@ -456,6 +502,18 @@
       margin-bottom: 16px;
       font-style: italic;
     }
+    .testimonial-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gray-200);
+    }
     .testimonial-author {
       font-size: 14px;
       font-weight: 600;
@@ -613,6 +671,7 @@
 
   <!-- HERO -->
   <section class="hero" id="apply">
+    <div class="hero-layout">
     <div class="hero-inner">
       <div class="hero-badge">
         <div class="hero-badge-dot"></div>
@@ -668,6 +727,10 @@
         <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
         APR ranges from 5.99% to 35.99%. Loan terms from 91 days to 72 months.
       </p>
+    </div>
+    <div class="hero-image">
+      <img src="images/hero-woman.png" alt="Woman smiling while checking loan options on her phone" />
+    </div>
     </div>
   </section>
 
@@ -742,20 +805,35 @@
         <div class="testimonial">
           <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="testimonial-text">"I was approved in literally 5 minutes. The money was in my account the next morning. I've never had something this easy."</p>
-          <div class="testimonial-author">Marcus T.</div>
-          <div class="testimonial-meta">Georgia &middot; $2,500 funded</div>
+          <div class="testimonial-footer">
+            <img src="images/testimonial-marcus.png" alt="" class="testimonial-avatar">
+            <div>
+              <div class="testimonial-author">Marcus T.</div>
+              <div class="testimonial-meta">Georgia &middot; $2,500 funded</div>
+            </div>
+          </div>
         </div>
         <div class="testimonial">
           <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="testimonial-text">"I was scared it would hurt my credit or have hidden fees. It didn't. Checked my options, picked one, done. No surprises."</p>
-          <div class="testimonial-author">Ashley R.</div>
-          <div class="testimonial-meta">Texas &middot; $4,000 funded</div>
+          <div class="testimonial-footer">
+            <img src="images/testimonial-ashley.png" alt="" class="testimonial-avatar">
+            <div>
+              <div class="testimonial-author">Ashley R.</div>
+              <div class="testimonial-meta">Texas &middot; $4,000 funded</div>
+            </div>
+          </div>
         </div>
         <div class="testimonial">
           <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="testimonial-text">"My car broke down and I needed cash fast. Applied on my phone during lunch break and had options within minutes."</p>
-          <div class="testimonial-author">James D.</div>
-          <div class="testimonial-meta">Florida &middot; $1,500 funded</div>
+          <div class="testimonial-footer">
+            <img src="images/testimonial-james.png" alt="" class="testimonial-avatar">
+            <div>
+              <div class="testimonial-author">James D.</div>
+              <div class="testimonial-meta">Florida &middot; $1,500 funded</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
