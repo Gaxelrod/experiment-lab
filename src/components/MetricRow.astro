@@ -1,0 +1,26 @@
+---
+interface Props {
+  name: string;
+  target: string;
+  isPrimary: boolean;
+}
+
+const { name, target, isPrimary } = Astro.props;
+---
+
+<div class="flex items-center justify-between bg-epcvip-surface border border-epcvip-border rounded px-3 py-2.5">
+  <span class="text-text-secondary text-sm">{name}</span>
+  <div class="flex items-center gap-2">
+    <span class:list={[
+      'text-sm font-semibold',
+      isPrimary ? 'text-epcvip-yellow' : 'text-text-muted',
+    ]}>
+      {target}
+    </span>
+    {isPrimary && (
+      <span class="bg-epcvip-yellow text-epcvip-black text-[7px] font-heading font-bold px-1.5 py-0.5 rounded">
+        PRIMARY
+      </span>
+    )}
+  </div>
+</div>

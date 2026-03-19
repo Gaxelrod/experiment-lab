@@ -1,0 +1,36 @@
+---
+import { STATUS_ORDER, STATUS_CONFIG } from '../lib/status';
+
+interface Props {
+  activeStatus?: string;
+}
+
+const { activeStatus } = Astro.props;
+---
+
+<nav class="flex gap-1.5">
+  <a
+    href="/"
+    class:list={[
+      'px-3 py-1 rounded text-[9px] font-heading font-semibold uppercase tracking-wider transition-colors',
+      !activeStatus
+        ? 'bg-epcvip-yellow text-epcvip-black'
+        : 'bg-epcvip-surface text-text-muted border border-epcvip-border hover:text-text-secondary',
+    ]}
+  >
+    All
+  </a>
+  {STATUS_ORDER.map((status) => (
+    <a
+      href={`/status/${status}`}
+      class:list={[
+        'px-3 py-1 rounded text-[9px] font-heading font-semibold uppercase tracking-wider transition-colors',
+        activeStatus === status
+          ? 'bg-epcvip-yellow text-epcvip-black'
+          : 'bg-epcvip-surface text-text-muted border border-epcvip-border hover:text-text-secondary',
+      ]}
+    >
+      {STATUS_CONFIG[status].label}
+    </a>
+  ))}
+</nav>

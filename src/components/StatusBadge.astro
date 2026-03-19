@@ -1,0 +1,23 @@
+---
+import { STATUS_CONFIG, PRIORITY_CONFIG } from '../lib/status';
+
+interface Props {
+  type: 'status' | 'priority';
+  value: string;
+}
+
+const { type, value } = Astro.props;
+const config = type === 'status'
+  ? STATUS_CONFIG[value as keyof typeof STATUS_CONFIG]
+  : PRIORITY_CONFIG[value];
+---
+
+{config && (
+  <span class:list={[
+    'inline-flex items-center px-2.5 py-0.5 rounded text-[9px] font-heading font-semibold uppercase tracking-wider',
+    config.textColor,
+    config.badgeBg,
+  ]}>
+    {type === 'priority' ? `${value} Priority` : value}
+  </span>
+)}
