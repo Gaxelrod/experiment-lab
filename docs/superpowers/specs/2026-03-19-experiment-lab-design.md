@@ -221,7 +221,7 @@ experimentation/
 
 - **Astro** — static site generator with content collections
 - **Tailwind CSS** — utility-first styling with EPCVIP design tokens
-- **No JS framework** — Astro components only, minimal client-side JavaScript (filter tabs only)
+- **No JS framework** — Astro components only, no client-side JavaScript (filter tabs are plain anchor links to static pages)
 - **No database** — markdown files are the data layer
 - **No auth** — solo tool, no login needed
 
