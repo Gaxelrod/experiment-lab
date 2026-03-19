@@ -551,6 +551,145 @@
       font-size: 18px;
     }
 
+    /* ── LOAN AMOUNT OVERLAY ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+    }
+    .overlay-card {
+      position: relative;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      padding: 40px 32px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      transform: translateY(16px) scale(0.97);
+      transition: transform 0.25s ease;
+    }
+    .overlay.active .overlay-card {
+      transform: translateY(0) scale(1);
+    }
+    .overlay-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--gray-100);
+      color: var(--gray-500);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .overlay-close:hover { background: var(--gray-200); }
+    .overlay-close:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 2px;
+    }
+    .overlay-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .overlay-sub {
+      font-size: 15px;
+      color: var(--gray-500);
+      margin-bottom: 28px;
+    }
+    .amount-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .amount-option {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green-dark);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      min-height: 56px;
+    }
+    .amount-option:hover {
+      border-color: var(--orange);
+      background: var(--orange-light);
+    }
+    .amount-option:active {
+      transform: scale(0.98);
+    }
+    .amount-option:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 2px;
+    }
+    .amount-option.selected {
+      border-color: var(--orange);
+      background: var(--orange-light);
+      box-shadow: 0 0 0 1px var(--orange);
+    }
+    .overlay-continue {
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .overlay-continue.enabled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .overlay-continue.enabled:hover { background: var(--orange-hover); }
+    .overlay-continue.enabled:active { transform: scale(0.98); }
+    .overlay-continue:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 3px;
+    }
+    .overlay-note {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+
     /* ── FOOTER ── */
     .footer {
       padding: 40px 24px;
@@ -824,6 +963,30 @@
     </a>
   </section>
 
+  <!-- LOAN AMOUNT OVERLAY -->
+  <div class="overlay" id="loan-overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-heading">
+    <div class="overlay-backdrop" id="overlay-backdrop"></div>
+    <div class="overlay-card">
+      <button class="overlay-close" id="overlay-close" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <h2 class="overlay-title" id="overlay-heading">How much do you need?</h2>
+      <p class="overlay-sub">Select an amount to get started</p>
+      <div class="amount-options" role="radiogroup" aria-label="Loan amount">
+        <button class="amount-option" role="radio" aria-checked="false" data-amount="1000">$1,000</button>
+        <button class="amount-option" role="radio" aria-checked="false" data-amount="2500">$2,500</button>
+        <button class="amount-option" role="radio" aria-checked="false" data-amount="5000">$5,000</button>
+        <button class="amount-option" role="radio" aria-checked="false" data-amount="7500">$7,500</button>
+        <button class="amount-option" role="radio" aria-checked="false" data-amount="10000">$10,000</button>
+      </div>
+      <button class="overlay-continue" id="overlay-continue" disabled>
+        Continue
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-left:6px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+      <p class="overlay-note">Free to check. No credit impact. No obligation.</p>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
@@ -846,6 +1009,60 @@
   </footer>
 
   <script>
+    // Loan amount overlay
+    const overlay = document.getElementById('loan-overlay');
+    const overlayClose = document.getElementById('overlay-close');
+    const overlayBackdrop = document.getElementById('overlay-backdrop');
+    const continueBtn = document.getElementById('overlay-continue');
+    const amountOptions = document.querySelectorAll('.amount-option');
+
+    function openOverlay() {
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      amountOptions[0].focus();
+    }
+
+    function closeOverlay() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Open overlay from all CTA buttons
+    document.querySelectorAll('.cta-button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openOverlay();
+      });
+    });
+
+    overlayClose.addEventListener('click', closeOverlay);
+    overlayBackdrop.addEventListener('click', closeOverlay);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) closeOverlay();
+    });
+
+    // Amount selection
+    amountOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        amountOptions.forEach(o => {
+          o.classList.remove('selected');
+          o.setAttribute('aria-checked', 'false');
+        });
+        opt.classList.add('selected');
+        opt.setAttribute('aria-checked', 'true');
+        continueBtn.classList.add('enabled');
+        continueBtn.disabled = false;
+      });
+    });
+
+    continueBtn.addEventListener('click', () => {
+      const selected = document.querySelector('.amount-option.selected');
+      if (selected) {
+        // In production, this would pass the amount to the application form
+        alert('Starting application for ' + selected.textContent + ' — in production this would redirect to the form.');
+      }
+    });
+
     // FAQ accordion
     document.querySelectorAll('.faq-question').forEach(btn => {
       btn.addEventListener('click', () => {
