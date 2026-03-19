@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1282,9 +1283,51 @@
     // Step 2 → Step 1
     backBtn.addEventListener('click', () => showStep(1));
 
-    // Google button (demo)
+    // Google Sign-In
+    const GOOGLE_CLIENT_ID = '1042076609718-8h7361q6c709aigjecg62bbnnboihqtu.apps.googleusercontent.com';
+
+    function handleGoogleCredential(response) {
+      // Decode the JWT to get user info
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      document.getElementById('first-name').value = payload.given_name || '';
+      document.getElementById('last-name').value = payload.family_name || '';
+      // Google doesn't provide DOB, but name fields are filled
+    }
+
+    function initGoogle() {
+      if (typeof google === 'undefined' || !google.accounts) {
+        setTimeout(initGoogle, 200);
+        return;
+      }
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential,
+      });
+    }
+    initGoogle();
+
     document.getElementById('google-btn').addEventListener('click', () => {
-      alert('Google Sign-In would auto-fill name and DOB from your Google account. This is a prototype demo.');
+      if (typeof google !== 'undefined' && google.accounts) {
+        google.accounts.id.prompt((notification) => {
+          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+            // Fallback: use popup mode
+            google.accounts.oauth2.initTokenClient({
+              client_id: GOOGLE_CLIENT_ID,
+              scope: 'profile',
+              callback: (tokenResponse) => {
+                fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                  headers: { Authorization: 'Bearer ' + tokenResponse.access_token }
+                })
+                .then(r => r.json())
+                .then(user => {
+                  document.getElementById('first-name').value = user.given_name || '';
+                  document.getElementById('last-name').value = user.family_name || '';
+                });
+              }
+            }).requestAccessToken();
+          }
+        });
+      }
     });
 
     // Step 2: Submit
