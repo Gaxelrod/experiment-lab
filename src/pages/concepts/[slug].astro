@@ -21,7 +21,6 @@ const contextFields = [
   { label: 'Audience', value: data.targetAudience },
   { label: 'Duration', value: data.duration },
   { label: 'Split', value: data.trafficSplit },
-  { label: 'Platform', value: data.platform },
 ].filter((f) => f.value);
 
 const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -91,7 +90,7 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
       <div class="font-heading font-semibold text-epcvip-yellow text-[9px] uppercase tracking-[1.2px] mb-2">
         Hypothesis
       </div>
-      <p class="text-text-secondary text-base leading-relaxed">
+      <p class="editable text-text-secondary text-base leading-relaxed" data-key="hypothesis" data-slug={concept.id}>
         {data.hypothesis}
       </p>
     </div>
@@ -114,7 +113,7 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
           ]}>
             {variant.name}
           </div>
-          <p class="text-text-secondary text-sm leading-relaxed">
+          <p class="editable text-text-secondary text-sm leading-relaxed" data-key={`variant-${i}`} data-slug={concept.id}>
             {variant.description}
           </p>
           {variant.prototypeUrl && (
@@ -140,27 +139,26 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
         Success Metrics
       </h2>
       <div class="flex flex-col gap-1">
-        {data.successMetrics.map((metric) => (
-          <MetricRow name={metric.name} target={metric.target} isPrimary={metric.isPrimary} />
+        {data.successMetrics.map((metric, i) => (
+          <div class="flex items-center justify-between bg-epcvip-surface border border-epcvip-border rounded px-3 py-2.5">
+            <span class="editable text-text-secondary text-sm" data-key={`metric-name-${i}`} data-slug={concept.id}>{metric.name}</span>
+            <div class="flex items-center gap-2">
+              <span class:list={[
+                'editable text-sm font-semibold',
+                metric.isPrimary ? 'text-epcvip-yellow' : 'text-text-muted',
+              ]} data-key={`metric-target-${i}`} data-slug={concept.id}>
+                {metric.target}
+              </span>
+              {metric.isPrimary && (
+                <span class="bg-epcvip-yellow text-epcvip-black text-[7px] font-heading font-bold px-1.5 py-0.5 rounded">
+                  PRIMARY
+                </span>
+              )}
+            </div>
+          </div>
         ))}
       </div>
     </div>
-
-    <!-- Guardrails -->
-    {data.guardrails && data.guardrails.length > 0 && (
-      <div class="mb-4">
-        <h2 class="font-heading font-semibold text-text-muted text-[9px] uppercase tracking-[1.2px] mb-3">
-          Guardrails
-        </h2>
-        <div class="space-y-1">
-          {data.guardrails.map((g) => (
-            <p class="text-epcvip-red text-sm">
-              <span class="text-epcvip-yellow">⚠</span> {g}
-            </p>
-          ))}
-        </div>
-      </div>
-    )}
 
     <!-- Context metadata -->
     {contextFields.length > 0 && (
@@ -240,5 +238,64 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
       dropdown?.classList.add('hidden');
       btn?.setAttribute('aria-expanded', 'false');
     }
+  });
+
+  // Inline editable fields
+  document.querySelectorAll('.editable').forEach(el => {
+    const elem = el as HTMLElement;
+    const key = elem.dataset.key!;
+    const elSlug = elem.dataset.slug!;
+    const storageKey = `edit-${elSlug}-${key}`;
+
+    // Load saved value
+    const savedVal = localStorage.getItem(storageKey);
+    if (savedVal !== null) elem.textContent = savedVal;
+
+    // Style hint
+    elem.style.cursor = 'pointer';
+    elem.title = 'Click to edit';
+    elem.style.borderRadius = '4px';
+    elem.style.transition = 'background 0.15s';
+    elem.addEventListener('mouseenter', () => { elem.style.background = 'rgba(242,199,68,0.08)'; });
+    elem.addEventListener('mouseleave', () => { if (!elem.isContentEditable) elem.style.background = ''; });
+
+    elem.addEventListener('click', (e) => {
+      if (elem.isContentEditable) return;
+      e.preventDefault();
+      e.stopPropagation();
+      elem.contentEditable = 'true';
+      elem.style.background = 'rgba(242,199,68,0.08)';
+      elem.style.outline = '1px solid rgba(242,199,68,0.3)';
+      elem.style.padding = '4px 6px';
+      elem.style.margin = '-4px -6px';
+      elem.focus();
+
+      // Select all text
+      const range = document.createRange();
+      range.selectNodeContents(elem);
+      const sel = window.getSelection();
+      sel?.removeAllRanges();
+      sel?.addRange(range);
+    });
+
+    function save() {
+      elem.contentEditable = 'false';
+      elem.style.background = '';
+      elem.style.outline = '';
+      elem.style.padding = '';
+      elem.style.margin = '';
+      const val = elem.textContent?.trim() || '';
+      localStorage.setItem(storageKey, val);
+    }
+
+    elem.addEventListener('blur', save);
+    elem.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); elem.blur(); }
+      if (e.key === 'Escape') {
+        const orig = localStorage.getItem(storageKey);
+        if (orig !== null) elem.textContent = orig;
+        elem.blur();
+      }
+    });
   });
 </script>
