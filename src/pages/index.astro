@@ -31,3 +31,50 @@ const total = allConcepts.length;
     <Swimlane status={status} concepts={concepts} />
   ))}
 </Base>
+
+<script>
+  // Apply localStorage status overrides to dashboard
+  const borderColors: Record<string, string> = {
+    draft: 'border-l-[#333333]',
+    ready: 'border-l-[#F2C744]',
+    running: 'border-l-[#c0892e]',
+    complete: 'border-l-[#2a6b3f]',
+    killed: 'border-l-[#c04040]',
+  };
+
+  const cards = document.querySelectorAll('.concept-card') as NodeListOf<HTMLElement>;
+  cards.forEach(card => {
+    const slug = card.dataset.slug;
+    const originalStatus = card.dataset.status;
+    const saved = localStorage.getItem(`status-${slug}`);
+
+    if (saved && saved !== originalStatus) {
+      // Remove from current swimlane
+      const currentLane = card.closest('.swimlane') as HTMLElement;
+      card.remove();
+
+      // Find target swimlane
+      const targetLane = document.querySelector(`.swimlane[data-status="${saved}"]`) as HTMLElement;
+      if (targetLane) {
+        const cardsContainer = targetLane.querySelector('.swimlane-cards');
+        // Update card border color
+        Object.values(borderColors).forEach(c => card.classList.remove(c));
+        card.classList.add(borderColors[saved]);
+        // Update opacity for draft
+        card.classList.toggle('opacity-60', saved === 'draft');
+        card.dataset.status = saved;
+        cardsContainer?.appendChild(card);
+        targetLane.style.display = '';
+      }
+
+      // Update counts and visibility
+      document.querySelectorAll('.swimlane').forEach(lane => {
+        const el = lane as HTMLElement;
+        const count = el.querySelectorAll('.concept-card').length;
+        const countEl = el.querySelector('.swimlane-count');
+        if (countEl) countEl.textContent = `(${count})`;
+        el.style.display = count === 0 ? 'none' : '';
+      });
+    }
+  });
+</script>

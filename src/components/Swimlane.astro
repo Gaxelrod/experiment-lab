@@ -17,8 +17,7 @@ const sorted = [...concepts].sort((a, b) =>
 );
 ---
 
-{sorted.length > 0 && (
-  <section class="mb-6">
+<section class="swimlane mb-6" data-status={status} style={sorted.length === 0 ? 'display:none' : ''}>
     <div class="flex items-center gap-2 mb-3">
       <div class:list={['w-2 h-2 rounded-full', config.dotColor]} />
       <span class:list={[
@@ -27,9 +26,9 @@ const sorted = [...concepts].sort((a, b) =>
       ]}>
         {config.label}
       </span>
-      <span class="text-text-dim text-[9px]">({sorted.length})</span>
+      <span class="swimlane-count text-text-dim text-[9px]">({sorted.length})</span>
     </div>
-    <div class="flex gap-3 overflow-x-auto pb-2">
+    <div class="swimlane-cards flex gap-3 overflow-x-auto pb-2">
       {sorted.map((concept) => (
         <ConceptCard
           slug={concept.id}
@@ -42,4 +41,3 @@ const sorted = [...concepts].sort((a, b) =>
       ))}
     </div>
   </section>
-)}

@@ -16,8 +16,10 @@ const config = STATUS_CONFIG[status as keyof typeof STATUS_CONFIG];
 
 <a
   href={`/concepts/${slug}`}
+  data-slug={slug}
+  data-status={status}
   class:list={[
-    'block bg-epcvip-surface border border-epcvip-border border-l-[3px] rounded p-3 min-w-[220px] max-w-[280px] hover:border-epcvip-yellow/30 transition-colors',
+    'concept-card block bg-epcvip-surface border border-epcvip-border border-l-[3px] rounded p-3 min-w-[220px] max-w-[280px] hover:border-epcvip-yellow/30 transition-colors',
     config.borderColor,
     status === 'draft' && 'opacity-60',
   ]}
