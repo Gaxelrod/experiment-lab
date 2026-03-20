@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import MetricRow from '../../components/MetricRow.astro';
+import { STATUS_ORDER, STATUS_CONFIG } from '../../lib/status';
 
 export async function getStaticPaths() {
   const concepts = await getCollection('concepts');
@@ -36,7 +37,31 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
     <!-- Header -->
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-3">
-        <StatusBadge type="status" value={data.status} />
+        <div class="relative" id="status-toggle">
+          <button
+            id="status-btn"
+            data-slug={concept.id}
+            data-status={data.status}
+            class="inline-flex items-center gap-1.5 cursor-pointer group"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
+            <StatusBadge type="status" value={data.status} />
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-text-dim group-hover:text-text-muted transition-colors" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div id="status-dropdown" class="absolute top-full left-0 mt-1 bg-epcvip-surface border border-epcvip-border rounded-lg shadow-lg py-1 z-50 hidden min-w-[140px]" role="listbox">
+            {STATUS_ORDER.map((s) => (
+              <button
+                class="status-option w-full px-3 py-2 text-left text-sm flex items-center gap-2 hover:bg-epcvip-black/50 transition-colors"
+                data-value={s}
+                role="option"
+              >
+                <div class={`w-2 h-2 rounded-full ${STATUS_CONFIG[s].dotColor}`} />
+                <span class={STATUS_CONFIG[s].textColor}>{STATUS_CONFIG[s].label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
         {data.priority && <StatusBadge type="priority" value={data.priority} />}
       </div>
       <h1 class="font-heading font-bold text-[28px] leading-[1.2] text-text-primary mb-2">
@@ -161,3 +186,59 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
     </div>
   </div>
 </Base>
+
+<script>
+  const btn = document.getElementById('status-btn');
+  const dropdown = document.getElementById('status-dropdown');
+  const slug = btn?.dataset.slug;
+
+  // Status badge styles (must match StatusBadge component)
+  const styles: Record<string, { text: string; bg: string; label: string }> = {
+    draft: { text: 'text-[#555555]', bg: 'bg-[rgba(85,85,85,0.15)] border border-[rgba(85,85,85,0.3)]', label: 'Draft' },
+    ready: { text: 'text-[#F2C744]', bg: 'bg-[rgba(242,199,68,0.15)] border border-[rgba(242,199,68,0.3)]', label: 'Ready' },
+    running: { text: 'text-[#c0892e]', bg: 'bg-[rgba(192,137,46,0.15)] border border-[rgba(192,137,46,0.3)]', label: 'Running' },
+    complete: { text: 'text-[#2a6b3f]', bg: 'bg-[rgba(42,107,63,0.15)] border border-[rgba(42,107,63,0.3)]', label: 'Complete' },
+    killed: { text: 'text-[#c04040]', bg: 'bg-[rgba(192,64,64,0.15)] border border-[rgba(192,64,64,0.3)]', label: 'Killed' },
+  };
+
+  // Load saved status
+  const saved = localStorage.getItem(`status-${slug}`);
+  if (saved && styles[saved]) {
+    updateBadge(saved);
+  }
+
+  function updateBadge(status: string) {
+    const badge = btn?.querySelector('span');
+    if (!badge) return;
+    const s = styles[status];
+    badge.className = `inline-flex items-center px-2.5 py-0.5 rounded text-[9px] font-heading font-semibold uppercase tracking-wider ${s.text} ${s.bg}`;
+    badge.textContent = s.label;
+    btn!.dataset.status = status;
+  }
+
+  // Toggle dropdown
+  btn?.addEventListener('click', () => {
+    const open = !dropdown?.classList.contains('hidden');
+    dropdown?.classList.toggle('hidden', open);
+    btn.setAttribute('aria-expanded', String(!open));
+  });
+
+  // Select option
+  document.querySelectorAll('.status-option').forEach((opt) => {
+    opt.addEventListener('click', () => {
+      const value = (opt as HTMLElement).dataset.value!;
+      localStorage.setItem(`status-${slug}`, value);
+      updateBadge(value);
+      dropdown?.classList.add('hidden');
+      btn?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Close on click outside
+  document.addEventListener('click', (e) => {
+    if (!(e.target as Element).closest('#status-toggle')) {
+      dropdown?.classList.add('hidden');
+      btn?.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>
