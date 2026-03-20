@@ -72,7 +72,10 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
     </div>
 
     <!-- Variants -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+    <div class:list={[
+      'grid grid-cols-1 gap-3 mb-4',
+      data.variants.length <= 3 ? 'sm:grid-cols-' + data.variants.length : 'sm:grid-cols-2',
+    ]}>
       {data.variants.map((variant, i) => (
         <div class:list={[
           'bg-epcvip-surface rounded-md p-4',
@@ -89,6 +92,19 @@ const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', 
           <p class="text-text-secondary text-sm leading-relaxed">
             {variant.description}
           </p>
+          {variant.prototypeUrl && (
+            <a
+              href={variant.prototypeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                'inline-flex items-center gap-1.5 mt-3 text-xs font-semibold transition-colors',
+                i === 0 ? 'text-text-muted hover:text-text-secondary' : 'text-epcvip-yellow hover:text-epcvip-yellow/80',
+              ]}
+            >
+              <span>&#9654;</span> View Prototype
+            </a>
+          )}
         </div>
       ))}
     </div>

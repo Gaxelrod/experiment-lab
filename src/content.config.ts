@@ -14,6 +14,7 @@ const concepts = defineCollection({
     variants: z.array(z.object({
       name: z.string(),
       description: z.string(),
+      prototypeUrl: z.string().optional(),
     })).min(2),
     successMetrics: z.array(z.object({
       name: z.string(),

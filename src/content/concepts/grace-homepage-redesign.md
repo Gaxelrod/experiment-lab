@@ -9,8 +9,13 @@ hypothesis: "A homepage that leads with empathy-driven copy, embeds the first fo
 variants:
   - name: "Control"
     description: "Current homepage: feature-led hero copy (APR ranges, repayment terms), orange 'Start My Request' CTA button, no form fields visible, minimal trust signals, form starts on a separate step after click-through"
-  - name: "Empathy-First with Embedded Form"
-    description: "Redesigned homepage: empathy-driven hero ('Need cash fast? See if you qualify in 60 seconds — it's free, no credit impact'), first form field (loan amount slider or dropdown) embedded directly in the hero, trust bar below fold (funded amounts, user count, star rating), streamlined social proof section replacing the features grid"
+    prototypeUrl: "https://graceloanadvance.com/?ac=10186"
+  - name: "Variant 1 — Big CTA Button"
+    description: "Empathy-driven hero, 'Choose Your Loan Amount' button with shimmer animation, 2-step overlay (amount selection → info form), Google sign-in, processing screen, personalized congrats page"
+    prototypeUrl: "/prototypes/grace-homepage-variant.html"
+  - name: "Variant 2 — Type-in Amount"
+    description: "Same empathy hero but with inline dollar amount input field and popular amount pills ($1K–$10K), skips straight to info form overlay on submit"
+    prototypeUrl: "/prototypes/grace-homepage-variant-2.html"
 successMetrics:
   - name: "Application start rate"
     target: "+25%"
@@ -29,7 +34,6 @@ targetAudience: "All visitors landing on graceloanadvance.com homepage"
 duration: "3 weeks"
 trafficSplit: "50/50"
 platform: "Web - all viewports, mobile priority"
-prototypeUrl: "/prototypes/grace-homepage-variant.html"
 ---
 
 ## Background
