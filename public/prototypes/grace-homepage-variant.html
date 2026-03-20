@@ -71,29 +71,24 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .header-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
     }
     .logo {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--green-dark);
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--orange);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 800;
-      font-size: 16px;
-    }
+    .logo svg:first-child { flex-shrink: 0; }
     .header-cta {
       display: none;
       background: var(--orange);
@@ -195,16 +190,30 @@
       margin-bottom: 20px;
       box-shadow: var(--shadow-sm);
     }
-    .hero-badge-dot {
-      width: 8px;
-      height: 8px;
-      background: #22c55e;
-      border-radius: 50%;
-      animation: pulse-dot 2s ease-in-out infinite;
+    .hero-badge.gamified {
+      gap: 10px;
+      padding: 8px 16px;
     }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+    .badge-bar {
+      width: 48px;
+      height: 6px;
+      background: var(--gray-200);
+      border-radius: 100px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .badge-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), #22c55e);
+      border-radius: 100px;
+      animation: fill-bar 1.5s ease-out 0.5s forwards;
+    }
+    @keyframes fill-bar {
+      to { width: 90%; }
+    }
+    .hero-badge.gamified strong {
+      color: var(--green-dark);
     }
     .hero h1 {
       font-size: 36px;
@@ -245,6 +254,24 @@
       box-shadow: 0 4px 20px rgba(245,166,35,0.35);
       text-decoration: none;
       text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Shimmer sweep */
+    .cta-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.3) 50%, transparent 80%);
+      animation: shimmer 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes shimmer {
+      0%, 100% { left: -100%; }
+      40%, 60% { left: 120%; }
     }
     .cta-button:hover {
       background: var(--orange-hover);
@@ -256,17 +283,27 @@
       outline: 2px solid var(--orange);
       outline-offset: 3px;
     }
+    /* Arrow nudge */
     .cta-button svg {
       display: inline-block;
       vertical-align: middle;
       margin-left: 8px;
       flex-shrink: 0;
+      animation: arrow-nudge 2s ease-in-out infinite;
+    }
+    @keyframes arrow-nudge {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
     }
     .cta-button {
       display: flex;
       align-items: center;
       justify-content: center;
       white-space: nowrap;
+    }
+    .cta-button.paused::after,
+    .cta-button.paused svg {
+      animation-play-state: paused;
     }
 
     .cta-subtext {
@@ -865,6 +902,296 @@
     .footer-legal { margin-top: 16px; }
     .footer-legal p { margin-bottom: 12px; }
 
+    /* ── PROCESSING SCREEN ── */
+    .processing-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .processing-screen.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .processing-spinner {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 4px solid var(--gray-200);
+      border-top-color: var(--orange);
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .processing-title {
+      font-family: 'Fraunces', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+    .processing-sub {
+      font-size: 15px;
+      color: var(--gray-500);
+      text-align: center;
+      max-width: 320px;
+    }
+    .processing-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .processing-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--gray-400);
+      transition: color 0.3s;
+    }
+    .processing-step.done {
+      color: var(--green-text);
+    }
+    .processing-step-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .processing-step.done .processing-step-icon {
+      border-color: var(--green-text);
+      background: var(--green-light);
+    }
+    .processing-step.done .processing-step-icon svg {
+      opacity: 1;
+    }
+    .processing-step-icon svg {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    /* ── CONGRATS SCREEN ── */
+    .congrats-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .congrats-screen.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .congrats-card {
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    .congrats-check {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .congrats-check svg { color: var(--green-text); }
+    .congrats-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .congrats-sub {
+      font-size: 16px;
+      color: var(--gray-500);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .congrats-amount {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--orange-light);
+      border: 1px solid var(--orange);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--orange-hover);
+      margin-bottom: 24px;
+    }
+    .request-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 18px 24px;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 4px 20px rgba(245,166,35,0.35);
+    }
+    .request-btn:hover { background: var(--orange-hover); }
+    .request-btn:active { transform: scale(0.99); }
+    .request-btn:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 3px;
+    }
+    .tcpa-text {
+      margin-top: 16px;
+      font-size: 10px;
+      color: var(--gray-400);
+      line-height: 1.6;
+      text-align: left;
+    }
+    .tcpa-text a {
+      color: var(--gray-500);
+      text-decoration: underline;
+    }
+    /* Button loader */
+    .btn-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    /* ── TRUST BADGES (step 2) ── */
+    .trust-badges {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .trust-badge-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green-text);
+      background: var(--green-light);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+    }
+    .trust-badge-item svg {
+      color: var(--green-text);
+      flex-shrink: 0;
+    }
+
+    /* ── DISCLOSURES MODAL ── */
+    .disc-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .disc-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .disc-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+    }
+    .disc-card {
+      position: relative;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      padding: 32px 24px;
+      max-width: 600px;
+      width: 100%;
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      transform: translateY(16px) scale(0.97);
+      transition: transform 0.25s ease;
+    }
+    .disc-overlay.active .disc-card {
+      transform: translateY(0) scale(1);
+    }
+    .disc-card h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 16px;
+    }
+    .disc-card p {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .disc-card u {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--gray-800);
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 4px;
+    }
+    .disc-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--gray-100);
+      color: var(--gray-500);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .disc-close:hover { background: var(--gray-200); }
+    .disc-close:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 2px;
+    }
+
     /* ── RESPONSIVE ── */
     @media (min-width: 640px) {
       .hero { padding: 64px 24px 72px; }
@@ -889,27 +1216,31 @@
 <body>
 
   <!-- HEADER -->
+  <div class="header-wrap">
   <header class="header">
     <a href="#" class="logo">
-      <div class="logo-icon">G</div>
-      GraceLoanAdvance
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="25" viewBox="0 0 73 75" fill="none" aria-hidden="true"><path d="M36.8077 72.2958C32.1355 72.2958 27.7456 70.4618 24.4416 67.1285C21.2965 63.9556 19.4869 59.7343 19.3415 55.2364C21.494 55.1423 23.5998 54.6804 25.5959 53.8671C26.7229 53.4079 27.8032 52.8408 28.815 52.1769C28.5709 52.9791 28.4503 53.809 28.4503 54.6527C28.4503 56.91 29.3195 59.0317 30.8961 60.6195C32.4755 62.2129 34.5758 63.0925 36.8105 63.0925C39.0452 63.0925 41.1455 62.2156 42.7249 60.6195C44.3015 59.0289 45.1707 56.91 45.1707 54.6527C45.1707 53.7482 45.0308 52.8574 44.7512 52.0054C44.625 51.6181 44.4687 51.2336 44.285 50.8657L44.1315 50.5697C44.1123 50.5338 43.9862 50.3152 43.967 50.2848L43.7915 50.0054L43.605 49.7316L43.4049 49.4632C43.372 49.419 43.3363 49.3775 43.3007 49.336L43.1937 49.2032C43.1526 49.1534 43.1115 49.1064 43.0676 49.0594L42.9689 48.9487C42.8921 48.8657 42.8126 48.7827 42.7331 48.6998L24.4196 30.1576C21.3459 27.0456 19.5444 22.9073 19.3498 18.5062L19.3388 18.1909L19.3333 17.8921V17.8783V17.7095C19.3333 17.5408 19.3333 17.3693 19.3388 17.2005C19.4649 12.675 21.2774 8.42601 24.4416 5.23377C27.7401 1.89768 32.1327 0.0664215 36.8077 0.0664215C41.4828 0.0664215 45.8754 1.89768 49.1739 5.22547C52.3217 8.40111 54.1314 12.6252 54.2739 17.1258C50.8904 17.2752 47.6192 18.3292 44.8005 20.1798C45.0445 19.3776 45.1679 18.5449 45.1679 17.6985C45.1679 15.4412 44.2987 13.3195 42.7221 11.7317C41.1455 10.1411 39.0424 9.26418 36.805 9.26418C34.5676 9.26418 32.4672 10.1411 30.8906 11.7317C29.314 13.3223 28.4448 15.4412 28.4448 17.6985C28.4448 18.6086 28.5874 19.5048 28.8698 20.3624C28.9959 20.7524 29.155 21.1369 29.3414 21.5076L29.495 21.8008L29.6567 22.083L29.7527 22.2351L29.8322 22.3596C29.8569 22.3983 29.8843 22.437 29.9117 22.4758L30.0187 22.6307L30.1311 22.7828L30.2161 22.8962L30.3422 23.0539L30.4245 23.1563C30.4629 23.2005 30.5013 23.2448 30.5396 23.289L30.6438 23.408C30.7206 23.491 30.7974 23.574 30.8769 23.6542L49.1904 42.1963C52.2668 45.3111 54.0683 49.4522 54.263 53.8588L54.2739 54.1742L54.2794 54.5144V54.6499C54.2794 54.8215 54.2794 54.9957 54.2712 55.1672C54.1423 59.69 52.3299 63.9362 49.1684 67.1229C45.8644 70.4563 41.4745 72.2903 36.8023 72.2903L36.8077 72.2958Z" fill="url(#paint0_linear_4_20)"/><path d="M18.4913 53.8116C18.3241 53.8116 18.1541 53.8116 17.9841 53.8033C13.4982 53.6733 9.28661 51.8448 6.12514 48.6553C2.82658 45.3275 1.01141 40.8987 1.01141 36.1795C1.01141 31.4603 2.82658 27.0316 6.12514 23.7038C9.27564 20.5253 13.4708 18.6996 17.9347 18.5558C18.0115 20.719 18.4694 22.8462 19.2783 24.8656C19.7334 26.0025 20.2955 27.0952 20.9536 28.1132C20.1557 27.867 19.3276 27.7425 18.4886 27.7425C16.2512 27.7425 14.1508 28.6194 12.5715 30.21C10.9948 31.8033 10.1256 33.9223 10.1256 36.1768C10.1256 38.4312 10.9948 40.553 12.5715 42.1463C14.1481 43.7369 16.2484 44.6138 18.4858 44.6138C19.3825 44.6138 20.2708 44.47 21.1181 44.1878C21.5047 44.0606 21.8859 43.9001 22.2505 43.7148C23.0375 43.3164 23.7586 42.7908 24.3892 42.1574L26.3717 40.1629L29.2946 37.1256L35.7299 43.6429L32.7878 46.7023L30.8246 48.6747C27.7399 51.7756 23.638 53.593 19.2728 53.7894L18.6229 53.806H18.4831L18.4913 53.8116Z" fill="url(#paint1_linear_4_20)"/><path d="M55.6641 53.8201C55.5709 51.6486 55.113 49.5241 54.3068 47.5103C53.8544 46.3761 53.2896 45.2835 52.6315 44.2627C53.4294 44.5089 54.2575 44.6334 55.0938 44.6334C57.3312 44.6334 59.4315 43.7565 61.0109 42.1659C62.5875 40.5726 63.4567 38.4536 63.4567 36.1991C63.4567 33.9446 62.5875 31.8229 61.0109 30.2296C59.4343 28.639 57.3339 27.7621 55.0965 27.7621C54.1999 27.7621 53.3142 27.9059 52.4642 28.1881C52.0776 28.3153 51.6965 28.4758 51.3318 28.6611C50.5449 29.0595 49.8237 29.585 49.1904 30.2185L47.2079 32.213L44.285 35.2503L37.8497 28.733L40.7918 25.6736L42.755 23.7012C45.8397 20.6003 49.9417 18.7829 54.3068 18.5864L54.9567 18.5699H55.0965C55.2638 18.5699 55.4338 18.5699 55.601 18.5782C60.0869 18.7082 64.2985 20.5367 67.4599 23.7261C70.7585 27.0539 72.5737 31.4827 72.5737 36.2019C72.5737 40.9211 70.7585 45.3499 67.4599 48.6777C64.3122 51.8505 60.1252 53.679 55.6641 53.8229V53.8201Z" fill="url(#paint2_linear_4_20)"/><defs><linearGradient id="paint0_linear_4_20" x1="36.8077" y1="0.0636553" x2="36.8077" y2="72.2931" gradientUnits="userSpaceOnUse"><stop stop-color="#f8c200"/><stop offset="1" stop-color="#f8a100"/></linearGradient><linearGradient id="paint1_linear_4_20" x1="18.3734" y1="18.5585" x2="18.3734" y2="53.8088" gradientUnits="userSpaceOnUse"><stop stop-color="#f8c200"/><stop offset="1" stop-color="#f8a100"/></linearGradient><linearGradient id="paint2_linear_4_20" x1="55.2089" y1="18.5671" x2="55.2089" y2="53.8173" gradientUnits="userSpaceOnUse"><stop stop-color="#f8c200"/><stop offset="1" stop-color="#f8a100"/></linearGradient></defs></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="120" height="32" viewBox="0 0 230 60" fill="none" aria-label="Grace Loan Advance"><path d="M16.9522 27.0837C17.9524 27.0837 18.8378 26.9983 19.6083 26.8245C20.3789 26.6508 21.1071 26.4221 21.793 26.1325V21.3555H18.7078C18.2515 21.3555 17.892 21.2336 17.6351 20.9866C17.3783 20.7428 17.2483 20.4318 17.2483 20.0568V16.0358H28.3502V29.3335C27.5494 29.9249 26.7185 30.434 25.8542 30.8577C24.99 31.2845 24.0684 31.632 23.0893 31.9064C22.1103 32.1808 21.0678 32.382 19.9619 32.5131C18.8529 32.6442 17.6653 32.7082 16.3932 32.7082C14.1057 32.7082 11.9935 32.2997 10.0506 31.4857C8.10758 30.6718 6.42448 29.5469 5.00426 28.1141C3.58102 26.6813 2.46901 24.9802 1.66221 23.0108C0.855407 21.0446 0.4505 18.9075 0.4505 16.5998C0.4505 14.2921 0.837279 12.0911 1.60782 10.1248C2.37836 8.15849 3.48432 6.46046 4.91964 5.03376C6.35497 3.60705 8.09247 2.4974 10.1261 1.70478C12.1627 0.912169 14.4381 0.515862 16.9522 0.515862C18.2515 0.515862 19.4723 0.62256 20.6176 0.839004C21.7598 1.05545 22.8144 1.35115 23.7783 1.72612C24.7422 2.10109 25.6246 2.54922 26.4253 3.06747C27.2261 3.58571 27.9392 4.14969 28.5678 4.7533L26.4677 7.97558C26.2682 8.27738 26.0295 8.51516 25.7485 8.68893C25.4675 8.86269 25.1653 8.94805 24.8389 8.94805C24.4098 8.94805 23.9687 8.80477 23.5094 8.51516C22.9383 8.17068 22.3974 7.86888 21.8927 7.6189C21.3851 7.36587 20.8684 7.16162 20.3396 7.0031C19.8108 6.84458 19.2548 6.72873 18.6685 6.65862C18.0823 6.58545 17.4266 6.55192 16.6984 6.55192C15.3416 6.55192 14.1178 6.79275 13.033 7.27747C11.9482 7.75913 11.0205 8.442 10.2591 9.31997C9.49456 10.1979 8.90532 11.2558 8.49134 12.4874C8.07736 13.719 7.86886 15.0939 7.86886 16.6059C7.86886 18.2765 8.09852 19.7611 8.5548 21.0598C9.01108 22.3585 9.64263 23.4529 10.4525 24.3461C11.2593 25.2393 12.2171 25.9222 13.3231 26.3886C14.4291 26.8581 15.6408 27.0928 16.9552 27.0928L16.9522 27.0837Z" fill="#1a3a2a"/><path d="M32.7679 32.3606V9.94185H36.7113C37.0407 9.94185 37.3157 9.97233 37.5362 10.0272C37.7568 10.0851 37.9442 10.1766 38.0922 10.2985C38.2433 10.4205 38.3551 10.582 38.4337 10.7863C38.5123 10.9875 38.5787 11.2344 38.6362 11.521L39.0018 13.6184C39.8177 12.3502 40.7302 11.3472 41.7455 10.6125C42.7608 9.87783 43.8668 9.50896 45.0664 9.50896C46.0817 9.50896 46.8946 9.75284 47.508 10.2437L46.6498 15.1731C46.5924 15.4749 46.4776 15.6883 46.3083 15.8102C46.1361 15.9322 45.9095 15.9931 45.6224 15.9931C45.3807 15.9931 45.0936 15.9596 44.7642 15.8956C44.4349 15.8316 44.0209 15.798 43.5223 15.798C41.7788 15.798 40.4069 16.7339 39.4067 18.6088V32.3606H32.7619H32.7679Z" fill="#1a3a2a"/><path d="M65.3846 32.3606C64.7561 32.3606 64.2817 32.2753 63.9584 32.1015C63.6381 31.9277 63.3691 31.568 63.1546 31.0193L62.6832 29.7877C62.1272 30.2633 61.5893 30.6809 61.0756 31.0406C60.5619 31.4004 60.0301 31.7083 59.4802 31.9582C58.9302 32.2113 58.344 32.3972 57.7215 32.5192C57.099 32.6411 56.4101 32.7021 55.6546 32.7021C54.6393 32.7021 53.7177 32.5679 52.8897 32.2997C52.0618 32.0314 51.3577 31.6381 50.7775 31.1168C50.1974 30.5955 49.7532 29.9493 49.4389 29.1749C49.1247 28.4006 48.9675 27.5074 48.9675 26.4953C48.9675 25.6996 49.167 24.8826 49.5689 24.0443C49.9677 23.2059 50.6627 22.4438 51.6478 21.7549C52.6329 21.0689 53.9625 20.4928 55.6335 20.0294C57.3045 19.566 59.4137 19.3343 61.9549 19.3343V18.3741C61.9549 17.051 61.686 16.0938 61.1512 15.5054C60.6163 14.917 59.8548 14.6213 58.8698 14.6213C58.0841 14.6213 57.4405 14.7067 56.9419 14.8805C56.4433 15.0542 55.9961 15.2493 55.6033 15.4658C55.2104 15.6822 54.8297 15.8773 54.458 16.048C54.0863 16.2187 53.6422 16.3072 53.1285 16.3072C52.6722 16.3072 52.2824 16.1944 51.9621 15.9718C51.6418 15.7493 51.3879 15.4719 51.2006 15.1396L50.001 13.0422C51.3426 11.8472 52.8323 10.957 54.4701 10.3717C56.1049 9.78943 57.8605 9.49678 59.731 9.49678C61.0726 9.49678 62.2843 9.71627 63.3631 10.1553C64.4418 10.5942 65.3574 11.207 66.1068 11.9935C66.8562 12.78 67.4303 13.7129 67.8322 14.792C68.2311 15.8743 68.4336 17.054 68.4336 18.3375V32.3484H65.3907L65.3846 32.3606ZM57.7547 28.2726C58.6129 28.2726 59.3623 28.1201 60.0059 27.8183C60.6496 27.5165 61.2992 27.0257 61.9549 26.349V23.2791C60.6254 23.2791 59.5345 23.3675 58.6764 23.5413C57.8182 23.715 57.1413 23.9345 56.6397 24.1967C56.1381 24.4589 55.7936 24.7576 55.6002 25.0899C55.4068 25.4253 55.3102 25.788 55.3102 26.1813C55.3102 26.9526 55.5156 27.4952 55.9326 27.8062C56.3466 28.1202 56.954 28.2756 57.7547 28.2756V28.2726Z" fill="#1a3a2a"/><path d="M89.1717 15.2585C88.9722 15.5023 88.7789 15.6975 88.5915 15.8438C88.4042 15.9871 88.1413 16.0602 87.7998 16.0602C87.4584 16.0602 87.1743 15.981 86.9114 15.8224C86.6455 15.6639 86.3494 15.4871 86.023 15.292C85.6937 15.0969 85.3099 14.9201 84.8657 14.7616C84.4215 14.603 83.8715 14.5238 83.2158 14.5238C82.4 14.5238 81.6989 14.6762 81.1036 14.978C80.5114 15.2798 80.0219 15.7127 79.6351 16.2767C79.2483 16.8376 78.9643 17.5266 78.7769 18.3405C78.5896 19.1545 78.4989 20.0751 78.4989 21.0964C78.4989 23.2456 78.9099 24.8948 79.7318 26.0472C80.5537 27.1995 81.6838 27.7757 83.1282 27.7757C83.8987 27.7757 84.5091 27.6781 84.9594 27.483C85.4096 27.2879 85.7904 27.0715 86.1046 26.8337C86.4189 26.5959 86.709 26.3764 86.9719 26.1752C87.2347 25.974 87.5671 25.8734 87.969 25.8734C88.4978 25.8734 88.8967 26.0685 89.1686 26.4587L91.0965 28.8579C90.4106 29.6505 89.6884 30.2968 88.933 30.7937C88.1745 31.2906 87.4009 31.6808 86.6062 31.9613C85.8115 32.2417 85.0168 32.4368 84.216 32.5466C83.4153 32.6533 82.6387 32.7082 81.8802 32.7082C80.5235 32.7082 79.2271 32.449 77.9912 31.9308C76.7554 31.4125 75.6706 30.6596 74.7338 29.6718C73.7971 28.6841 73.0537 27.4708 72.5038 26.0289C71.9538 24.5869 71.6788 22.9438 71.6788 21.0994C71.6788 19.4868 71.9176 17.9747 72.398 16.5693C72.8785 15.164 73.5825 13.9476 74.5193 12.9142C75.456 11.8838 76.6133 11.0729 77.9912 10.4814C79.3692 9.89003 80.9677 9.59433 82.7807 9.59433C84.5938 9.59433 86.0532 9.87479 87.3677 10.4388C88.6822 10.9997 89.8667 11.8228 90.9243 12.902L89.1656 15.2585H89.1717Z" fill="#1a3a2a"/><path d="M103.489 9.59433C104.96 9.59433 106.308 9.82601 107.529 10.2863C108.75 10.7467 109.801 11.4173 110.677 12.2984C111.557 13.1763 112.243 14.2555 112.735 15.5298C113.228 16.8041 113.476 18.2491 113.476 19.8648C113.476 20.3708 113.454 20.7793 113.412 21.0964C113.37 21.4134 113.291 21.6664 113.176 21.8524C113.062 22.0414 112.907 22.1694 112.717 22.2426C112.524 22.3158 112.279 22.3493 111.977 22.3493H99.1616C99.3762 24.2241 99.9412 25.5807 100.854 26.4252C101.769 27.2696 102.948 27.6903 104.389 27.6903C105.16 27.6903 105.825 27.5958 106.384 27.4098C106.94 27.2239 107.438 27.0135 107.873 26.7819C108.308 26.5502 108.71 26.3429 109.073 26.1539C109.439 25.9679 109.819 25.8734 110.218 25.8734C110.747 25.8734 111.146 26.0685 111.418 26.4587L113.346 28.8579C112.66 29.6505 111.919 30.2968 111.128 30.7937C110.336 31.2906 109.52 31.6808 108.686 31.9613C107.849 32.2417 107.015 32.4368 106.178 32.5466C105.341 32.6533 104.546 32.7082 103.788 32.7082C102.232 32.7082 100.769 32.4521 99.4064 31.9399C98.0405 31.4278 96.85 30.6687 95.8286 29.6597C94.8073 28.6506 94.0005 27.3977 93.4082 25.8978C92.816 24.3979 92.5198 22.6542 92.5198 20.6665C92.5198 19.1667 92.7737 17.7491 93.2813 16.4078C93.789 15.0664 94.5172 13.8927 95.466 12.8837C96.4149 11.8746 97.5661 11.0759 98.9168 10.4845C100.268 9.89308 101.791 9.59738 103.492 9.59738L103.489 9.59433ZM103.616 14.222C102.343 14.222 101.352 14.5847 100.636 15.3133C99.9201 16.0419 99.4487 17.0906 99.222 18.4594H107.517C107.517 17.9259 107.447 17.4077 107.314 16.9016C107.178 16.3986 106.958 15.9474 106.649 15.5511C106.341 15.1548 105.939 14.8347 105.438 14.5878C104.936 14.3439 104.332 14.2189 103.616 14.2189V14.222Z" fill="#1a3a2a"/><path d="M132.802 26.5227H144.376V32.3606H125.559V0.86034H132.802V26.5227Z" fill="#f8a100"/><path d="M156.85 9.59433C158.536 9.59433 160.071 9.8626 161.458 10.393C162.842 10.9265 164.032 11.6917 165.026 12.6855C166.021 13.6793 166.791 14.8865 167.341 16.3072C167.891 17.7278 168.166 19.3221 168.166 21.0964C168.166 22.8706 167.891 24.4955 167.341 25.9283C166.791 27.3641 166.021 28.5805 165.026 29.5834C164.032 30.5864 162.845 31.3577 161.458 31.8973C160.071 32.4368 158.536 32.7082 156.85 32.7082C155.163 32.7082 153.601 32.4368 152.211 31.8973C150.818 31.3577 149.619 30.5864 148.609 29.5834C147.603 28.5805 146.823 27.3641 146.273 25.9283C145.724 24.4955 145.449 22.8828 145.449 21.0964C145.449 19.3099 145.724 17.7278 146.273 16.3072C146.823 14.8865 147.603 13.6793 148.609 12.6855C149.616 11.6917 150.815 10.9265 152.211 10.393C153.604 9.85955 155.151 9.59433 156.85 9.59433ZM156.85 27.733C158.379 27.733 159.503 27.1904 160.225 26.102C160.947 25.0137 161.307 23.3614 161.307 21.1391C161.307 18.9167 160.947 17.2705 160.225 16.1883C159.503 15.106 158.379 14.5665 156.85 14.5665C155.321 14.5665 154.127 15.106 153.399 16.1883C152.67 17.2705 152.305 18.9197 152.305 21.1391C152.305 23.3584 152.67 25.0137 153.399 26.102C154.127 27.1904 155.278 27.733 156.85 27.733Z" fill="#f8a100"/><path d="M187.152 32.3606C186.523 32.3606 186.049 32.2753 185.725 32.1015C185.405 31.9277 185.136 31.568 184.922 31.0193L184.45 29.7877C183.894 30.2633 183.356 30.6809 182.843 31.0406C182.329 31.4004 181.797 31.7083 181.247 31.9582C180.697 32.2113 180.111 32.3972 179.488 32.5192C178.866 32.6411 178.177 32.7021 177.422 32.7021C176.406 32.7021 175.485 32.5679 174.657 32.2997C173.829 32.0314 173.125 31.6381 172.545 31.1168C171.964 30.5955 171.52 29.9493 171.206 29.1749C170.892 28.4006 170.734 27.5074 170.734 26.4953C170.734 25.6996 170.934 24.8826 171.336 24.0443C171.735 23.2059 172.43 22.4438 173.415 21.7549C174.4 21.0689 175.729 20.4928 177.4 20.0294C179.071 19.566 181.181 19.3343 183.722 19.3343V18.3741C183.722 17.051 183.453 16.0938 182.918 15.5054C182.383 14.917 181.622 14.6213 180.637 14.6213C179.851 14.6213 179.207 14.7067 178.709 14.8805C178.21 15.0542 177.763 15.2493 177.37 15.4658C176.977 15.6822 176.597 15.8773 176.225 16.048C175.853 16.2187 175.409 16.3072 174.895 16.3072C174.439 16.3072 174.049 16.1944 173.729 15.9718C173.409 15.7493 173.155 15.4719 172.968 15.1396L171.768 13.0422C173.11 11.8472 174.599 10.957 176.237 10.3717C177.872 9.78943 179.627 9.49678 181.498 9.49678C182.84 9.49678 184.051 9.71627 185.13 10.1553C186.209 10.5942 187.124 11.207 187.874 11.9935C188.623 12.78 189.197 13.7129 189.599 14.792C189.998 15.8743 190.201 17.054 190.201 18.3375V32.3484H187.158L187.152 32.3606ZM179.522 28.2726C180.38 28.2726 181.129 28.1201 181.773 27.8183C182.417 27.5165 183.066 27.0257 183.722 26.349V23.2791C182.392 23.2791 181.302 23.3675 180.443 23.5413C179.585 23.715 178.908 23.9345 178.407 24.1967C177.905 24.4589 177.561 24.7576 177.367 25.0899C177.174 25.4253 177.077 25.788 177.077 26.1813C177.077 26.9526 177.283 27.4952 177.7 27.8062C178.114 28.1202 178.721 28.2756 179.522 28.2756V28.2726Z" fill="#f8a100"/><path d="M194.908 32.3607V9.94189H199.024C199.438 9.94189 199.785 10.0364 200.063 10.2224C200.341 10.4083 200.538 10.6918 200.653 11.0668L201.039 12.3655C201.469 11.9631 201.91 11.5881 202.369 11.2406C202.825 10.8961 203.315 10.6034 203.838 10.3656C204.36 10.1278 204.922 9.94189 205.53 9.80471C206.137 9.66752 206.799 9.60046 207.512 9.60046C208.727 9.60046 209.802 9.81385 210.736 10.2376C211.673 10.6644 212.462 11.2527 213.105 12.0118C213.749 12.7679 214.232 13.6702 214.562 14.7128C214.891 15.7585 215.054 16.8925 215.054 18.118V32.3668H208.409V18.118C208.409 17.0236 208.159 16.17 207.66 15.5573C207.158 14.9445 206.424 14.6396 205.451 14.6396C204.723 14.6396 204.037 14.7982 203.393 15.1152C202.75 15.4323 202.136 15.8591 201.55 16.3895V32.3668H194.905L194.908 32.3607Z" fill="#f8a100"/><path d="M34.0212 55.1178H25.7779L24.0011 59.1052H22.3724L29.1351 44.1797H30.6792L37.4418 59.1052H35.792L34.0152 55.1178H34.0212ZM33.4501 53.8405L29.8996 45.8229L26.349 53.8405H33.4501Z" fill="#1a3a2a"/><path d="M50.4655 44.1797H56.4878C58.0531 44.1797 59.434 44.4967 60.6306 45.1278C61.8272 45.7619 62.7579 46.6429 63.4197 47.7708C64.0815 48.9018 64.4138 50.1914 64.4138 51.6394C64.4138 53.0874 64.0815 54.38 63.4197 55.508C62.7579 56.639 61.8272 57.52 60.6306 58.151C59.434 58.7851 58.0531 59.0991 56.4878 59.0991H50.4655V44.1736V44.1797ZM56.4032 57.7395C57.6996 57.7395 58.8327 57.4804 59.8057 56.9621C60.7787 56.4439 61.5311 55.7244 62.066 54.8099C62.6008 53.8923 62.8697 52.8375 62.8697 51.6425C62.8697 50.4474 62.6008 49.3926 62.066 48.475C61.5311 47.5574 60.7757 46.841 59.8057 46.3228C58.8327 45.8045 57.6996 45.5454 56.4032 45.5454H52.0277V57.7425H56.4032V57.7395Z" fill="#1a3a2a"/><path d="M90.3464 44.1797L83.7953 59.1052H82.2512L75.7001 44.1797H77.3922L83.058 57.1451L88.763 44.1797H90.3494H90.3464Z" fill="#1a3a2a"/><path d="M111.885 55.1178H103.642L101.865 59.1052H100.237L106.999 44.1797H108.543L115.306 59.1052H113.656L111.879 55.1178H111.885ZM111.314 53.8405L107.764 45.8229L104.213 53.8405H111.314Z" fill="#1a3a2a"/><path d="M140.692 44.1797V59.1052H139.401L129.892 46.9935V59.1052H128.327V44.1797H129.617L139.148 56.2915V44.1797H140.692Z" fill="#1a3a2a"/><path d="M158.541 58.2516C157.366 57.5993 156.441 56.6908 155.773 55.5324C155.105 54.3739 154.77 53.0783 154.77 51.6425C154.77 50.2066 155.105 48.911 155.773 47.7495C156.441 46.5911 157.369 45.6857 158.553 45.0302C159.738 44.3779 161.061 44.0486 162.527 44.0486C163.627 44.0486 164.639 44.2346 165.57 44.6034C166.5 44.9723 167.289 45.5119 167.936 46.2253L166.941 47.2282C165.787 46.0484 164.328 45.457 162.566 45.457C161.397 45.457 160.333 45.7283 159.375 46.2679C158.417 46.8075 157.668 47.5483 157.124 48.4842C156.583 49.4231 156.311 50.4749 156.311 51.6394C156.311 52.804 156.583 53.8557 157.124 54.7946C157.665 55.7336 158.417 56.4713 159.375 57.0109C160.333 57.5505 161.397 57.8218 162.566 57.8218C164.343 57.8218 165.799 57.2243 166.941 56.0293L167.936 57.0322C167.286 57.7425 166.494 58.2882 165.558 58.6632C164.621 59.0412 163.602 59.2272 162.503 59.2272C161.037 59.2272 159.716 58.901 158.541 58.2455V58.2516Z" fill="#1a3a2a"/><path d="M192.303 57.7395V59.1052H181.842V44.1797H191.986V45.5455H183.404V50.856H191.055V52.2004H183.404V57.7456H192.303V57.7395Z" fill="#1a3a2a"/></svg>
     </a>
     <a href="#apply" class="header-cta">Check My Options</a>
   </header>
+  </div>
 
   <!-- HERO -->
   <section class="hero" id="apply">
     <div class="hero-layout">
     <div class="hero-inner">
-      <div class="hero-badge">
-        <div class="hero-badge-dot"></div>
-        2,847 people checked their options today
+      <div class="hero-badge gamified">
+        <div class="badge-bar">
+          <div class="badge-bar-fill"></div>
+        </div>
+        <span><strong>9 out of 10</strong> people receive an offer</span>
       </div>
 
-      <h1>Need cash <em>fast?</em><br>See if you qualify in 60 seconds</h1>
+      <h1>Get your cash<br>as soon as <em>tomorrow</em></h1>
 
       <p class="hero-sub">
-        100% free to check. No credit score impact. No obligation.
+        100% free to check. All credit types accepted. No obligation.
       </p>
 
       <!-- HERO CTA -->
@@ -925,191 +1256,48 @@
           </span>
           <span>
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            No credit impact
+            All credit types accepted
           </span>
           <span>
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
             Takes 60 seconds
           </span>
         </div>
+        <p style="text-align:center;font-size:11px;color:var(--gray-400);margin-top:16px;line-height:1.5;">Rates from 5.99%&ndash;35.99% APR. Repayment terms from 91 days to 72 months. Actual rate and term depend on creditworthiness and lender.<br><a href="#" id="disclosures-link" style="color:var(--orange);text-decoration:underline;font-weight:500;">Disclosures</a></p>
       </div>
 
     </div>
     <div class="hero-image">
-      <img src="images/hero-woman.png" alt="Woman smiling while checking loan options on her phone" />
+      <img src="images/hero-splash.avif" alt="Person using laptop to check loan options" />
     </div>
     </div>
   </section>
 
-  <!-- TRUST BAR -->
-  <section class="trust-bar" aria-label="Trust indicators">
-    <div class="trust-bar-inner">
-      <div class="trust-item">
-        <div class="trust-icon" aria-hidden="true">$</div>
-        <div>
-          <div class="trust-label">Total funded</div>
-          <div class="trust-value">$48M+</div>
-        </div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon" aria-hidden="true">&#9733;</div>
-        <div>
-          <div class="trust-label">Rating</div>
-          <div class="trust-value">4.6 / 5.0</div>
-        </div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon" aria-hidden="true">&#128274;</div>
-        <div>
-          <div class="trust-label">Your data</div>
-          <div class="trust-value">256-bit encrypted</div>
-        </div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon" aria-hidden="true">&#9889;</div>
-        <div>
-          <div class="trust-label">Funding speed</div>
-          <div class="trust-value">Next business day</div>
-        </div>
-      </div>
+  <!-- DISCLOSURES MODAL -->
+  <div class="disc-overlay" id="disc-overlay" role="dialog" aria-modal="true" aria-labelledby="disc-heading">
+    <div class="disc-backdrop" id="disc-backdrop"></div>
+    <div class="disc-card">
+      <button class="disc-close" id="disc-close" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <h3 id="disc-heading">Disclosures</h3>
+      <p><u>Advertiser Disclosure</u></p>
+      <p>GraceLoanAdvance works with advertisers who compensate us in exchange for the placement of their products or services on our website. This allows us to bring you quality content, competitive rates, and useful tools at no cost to you. This compensation may affect how, where and in what order products or services appear on this website. Although we work with a wide array of financial service providers, this does not represent all the financial services or products that are available for you.</p>
+      <p><u>Requested Loan Amount Disclosure</u></p>
+      <p>You may be presented with a loan amount from our Network Partner that is higher or lower than your requested loan amount.</p>
+      <p><u>Ai Enhanced Probability</u></p>
+      <p>The percentage displayed is determined by a combination of factors, including but not limited to, time and date of submission, available lenders or offers, the frequency of your requests, and if you are a first-time applicant. Of course, nothing is certain since each submission is considered on a case-by-case basis. AI models are incorporated in increasing this percentage. The percentage moves down significantly if you have submitted more than once within the past 30 days.</p>
+      <p><u>Advertiser Headline Disclosures</u></p>
+      <p><strong>We Accept Everyone:</strong> GraceLoanAdvance accepts and considers all loan requests; by using our services you gain access to our network of lenders and/or financial service providers.</p>
+      <p><strong>No Credit Check:</strong> No credit check refers to a hard credit check. GraceLoanAdvance performs a soft credit inquiry to review your credit report. This does not impact your credit score in any way. Each lender and/or financial service provider has their own policy about pulling your credit. Some may pull your credit before they make you an offer; others may pull your credit after you have accepted their offer.</p>
+      <p>Presently Fair Isaac Corporation (the company that provides "FICO" credit scores) provides that for mortgage or auto loans it disregards those inquiries made in the prior 30 days. All inquiries on your credit report within a 14-day period will count as one inquiry if you are looking for a mortgage to purchase a home, a mortgage to refinance your home, a home equity loan or line of credit or an auto loan. If you are looking for a personal loan or credit card, however, each inquiry will be counted as a separate inquiry.</p>
+      <p><strong>We Accept Everyone's Credit:</strong> GraceLoanAdvance accepts and considers all credit types; by using our services you gain access to our network of lenders and/or financial service providers.</p>
+      <p><strong>Same Day Deposit/Cash:</strong> Once approved by a lender, your cash could be deposited as soon as the same day. The time that it takes for the cash to be received in your account may also depend on other factors, such as your bank's policies, having an existing account, and/or having an existing debit card issue by the lender.</p>
+      <p><strong>Paid in 5 Minutes:</strong> In certain cases, some lenders can make decisions in minutes on whether or not they can extend you a loan and/or financial service. The time that it takes for the cash to be received in your account may also depend on other factors, such as your bank's policies, having an existing account, and/or having an existing debit card issue by the lender.</p>
+      <p><strong>Paid Same Day:</strong> Once approved by a lender, your cash could be deposited as soon as the same day. The time that it takes for the cash to be received in your account may also depend on other factors, such as your bank's policies, having an existing account, and/or having an existing debit card issue by the lender.</p>
+      <p><strong>Instant Cash Deposit:</strong> Once approved by a lender, your cash could be deposited as soon as the same day. The time that it takes for the cash to be received in your account may also depend on other factors, such as your bank's policies, having an existing account, and/or having an existing debit card issue by the lender.</p>
     </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="how-it-works">
-    <div class="section-inner">
-      <div class="section-label">How it works</div>
-      <h2 class="section-title">Three steps. That's it.</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <h3>Tell us what you need</h3>
-          <p>Slide to your amount and answer a few basic questions. No paperwork.</p>
-          <span class="step-time">~60 seconds</span>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <h3>See your options</h3>
-          <p>We match you with lenders competing to offer you the best terms.</p>
-          <span class="step-time">~2 minutes</span>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <h3>Get your money</h3>
-          <p>Accept an offer and funds are deposited directly into your bank account.</p>
-          <span class="step-time">As soon as next day</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="testimonials">
-    <div class="section-inner">
-      <div class="section-label">Real stories</div>
-      <h2 class="section-title">People like you got funded</h2>
-      <div class="testimonial-grid">
-        <div class="testimonial">
-          <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-text">"I was approved in literally 5 minutes. The money was in my account the next morning. I've never had something this easy."</p>
-          <div class="testimonial-footer">
-            <img src="images/testimonial-marcus.png" alt="" class="testimonial-avatar">
-            <div>
-              <div class="testimonial-author">Marcus T.</div>
-              <div class="testimonial-meta">Georgia &middot; $2,500 funded</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial">
-          <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-text">"I was scared it would hurt my credit or have hidden fees. It didn't. Checked my options, picked one, done. No surprises."</p>
-          <div class="testimonial-footer">
-            <img src="images/testimonial-ashley.png" alt="" class="testimonial-avatar">
-            <div>
-              <div class="testimonial-author">Ashley R.</div>
-              <div class="testimonial-meta">Texas &middot; $4,000 funded</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial">
-          <div class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-text">"My car broke down and I needed cash fast. Applied on my phone during lunch break and had options within minutes."</p>
-          <div class="testimonial-footer">
-            <img src="images/testimonial-james.png" alt="" class="testimonial-avatar">
-            <div>
-              <div class="testimonial-author">James D.</div>
-              <div class="testimonial-meta">Florida &middot; $1,500 funded</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq">
-    <div class="section-inner">
-      <div class="section-label">Common questions</div>
-      <h2 class="section-title">We get it. You have questions.</h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Will this affect my credit score?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer" role="region">
-            <p>No. Checking your options uses a soft credit inquiry, which does not affect your credit score. A hard inquiry only happens if you choose to accept a specific loan offer from a lender.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Is there a fee to use this service?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer" role="region">
-            <p>No. GraceLoanAdvance is 100% free to use. There are no application fees, no hidden charges, and no obligation to accept any offer you receive.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            How fast can I get the money?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer" role="region">
-            <p>Most lenders can deposit funds as soon as the next business day after you accept an offer. Some lenders may offer same-day funding depending on your bank.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            What are the requirements?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer" role="region">
-            <p>Basic requirements include being 18 or older, having a regular source of income, an active bank account, and a valid email address and phone number. Even if your credit isn't perfect, you may still qualify.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            What if I have bad credit?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer" role="region">
-            <p>We work with a wide network of lenders, many of whom specialize in working with borrowers who have less-than-perfect credit. Checking your options is free and won't affect your score — there's no risk in seeing what's available to you.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section class="final-cta">
-    <h2>Ready to see your options?</h2>
-    <p>It takes 60 seconds, it's free, and it won't affect your credit.</p>
-    <a href="#" class="cta-button" style="max-width:320px;margin:0 auto;font-size:18px;">
-      Get Started Now
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-    </a>
-  </section>
+  </div>
 
   <!-- LOAN OVERLAY (2-step) -->
   <div class="overlay" id="loan-overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-heading">
@@ -1136,7 +1324,7 @@
           <button class="amount-option" role="radio" aria-checked="false" data-amount="7500">$7,500</button>
           <button class="amount-option" role="radio" aria-checked="false" data-amount="10000">$10,000</button>
         </div>
-        <p class="overlay-note">Free to check. No credit impact. No obligation.</p>
+        <p class="overlay-note">Free to check. All credit types accepted. No obligation.</p>
       </div>
 
       <!-- STEP 2: Basic Info -->
@@ -1184,8 +1372,26 @@
             Check My Options
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-left:6px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </button>
+          <p style="font-size:10px;color:var(--gray-400);line-height:1.5;margin-top:12px;text-align:left;">By submitting, you consent to the <a href="#" style="color:var(--gray-500);text-decoration:underline;">Terms &amp; Conditions</a>, <a href="#" style="color:var(--gray-500);text-decoration:underline;">Privacy Policy</a>, <a href="#" style="color:var(--gray-500);text-decoration:underline;">Credit Authorization</a>, <a href="#" style="color:var(--gray-500);text-decoration:underline;">E-Consent</a> and you are providing written instructions under the Fair Credit Reporting Act authorizing us and our Network Partners or authorized third parties on their behalf with whom your request is shared to obtain your consumer credit report, and to contact you at the information on file to receive offers for financial products or services.</p>
         </div>
-        <p class="overlay-note">Your information is encrypted and never shared without your consent.</p>
+        <div class="trust-badges">
+          <div class="trust-badge-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            256-bit SSL
+          </div>
+          <div class="trust-badge-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Bank-level security
+          </div>
+          <div class="trust-badge-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            No hidden fees
+          </div>
+          <div class="trust-badge-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Secure & confidential
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1212,7 +1418,69 @@
     </div>
   </footer>
 
+  <!-- CONGRATS SCREEN -->
+  <div class="congrats-screen" id="congrats-screen">
+    <div class="congrats-card">
+      <div class="congrats-check">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h1 class="congrats-title">Great news, <span id="congrats-name">Test</span>!</h1>
+      <p class="congrats-sub">You're pre-qualified. Complete your request below to get your cash as soon as tomorrow.</p>
+      <div class="congrats-amount" id="congrats-amount">$5,000</div>
+      <button class="request-btn" id="request-loan-btn" type="button">
+        Request Loan
+      </button>
+      <div class="tcpa-text">
+        By providing your telephone number and clicking "Request Loan", you expressly consent to receive calls, texts/SMS and pre-recorded/artificial voice messages from GraceLoanAdvance, and up to five (5) of GraceLoanAdvance's <a href="#">Network Partners</a> and authorized third parties calling on their behalf. Consent to such communication is not a requirement for purchase and std. msg/data rates apply. You understand that you are providing this consent to receive such telephone calls and SMS/text messages even if your telephone number is currently listed on any federal, state, or internal Do-Not-Call ("DNC") lists. If you do not wish to receive any remarketing messages or phone calls resulting from this submission, simply call <a href="tel:18339683768">1-833-968-3768</a>.
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESSING SCREEN -->
+  <div class="processing-screen" id="processing-screen">
+    <div class="processing-spinner"></div>
+    <div class="processing-title">Processing your request</div>
+    <p class="processing-sub">Hang tight — we're matching you with lenders right now.</p>
+    <div class="processing-steps">
+      <div class="processing-step" id="proc-step-1">
+        <div class="processing-step-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        Verifying your information
+      </div>
+      <div class="processing-step" id="proc-step-2">
+        <div class="processing-step-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        Searching lender network
+      </div>
+      <div class="processing-step" id="proc-step-3">
+        <div class="processing-step-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        Finding the best offers for you
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Disclosures modal
+    const discOverlay = document.getElementById('disc-overlay');
+    document.getElementById('disclosures-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      discOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    function closeDisc() {
+      discOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('disc-close').addEventListener('click', closeDisc);
+    document.getElementById('disc-backdrop').addEventListener('click', closeDisc);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && discOverlay.classList.contains('active')) closeDisc();
+    });
+
     // Overlay state
     const overlay = document.getElementById('loan-overlay');
     const step1 = document.getElementById('step-1');
@@ -1237,6 +1505,7 @@
     function openOverlay() {
       overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
+      document.querySelectorAll('.cta-button').forEach(b => b.classList.add('paused'));
       showStep(1);
       amountOptions[0].focus();
     }
@@ -1244,6 +1513,7 @@
     function closeOverlay() {
       overlay.classList.remove('active');
       document.body.style.overflow = '';
+      document.querySelectorAll('.cta-button').forEach(b => b.classList.remove('paused'));
       // Reset after transition
       setTimeout(() => {
         showStep(1);
@@ -1283,15 +1553,29 @@
     // Step 2 → Step 1
     backBtn.addEventListener('click', () => showStep(1));
 
+    // Processing screen
+    function showProcessing() {
+      closeOverlay();
+      const screen = document.getElementById('processing-screen');
+      setTimeout(() => {
+        screen.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }, 300);
+
+      // Animate steps one by one
+      setTimeout(() => document.getElementById('proc-step-1').classList.add('done'), 1500);
+      setTimeout(() => document.getElementById('proc-step-2').classList.add('done'), 3000);
+      setTimeout(() => document.getElementById('proc-step-3').classList.add('done'), 4500);
+    }
+
     // Google Sign-In
     const GOOGLE_CLIENT_ID = '1042076609718-8h7361q6c709aigjecg62bbnnboihqtu.apps.googleusercontent.com';
 
     function handleGoogleCredential(response) {
-      // Decode the JWT to get user info
       const payload = JSON.parse(atob(response.credential.split('.')[1]));
       document.getElementById('first-name').value = payload.given_name || '';
       document.getElementById('last-name').value = payload.family_name || '';
-      // Google doesn't provide DOB, but name fields are filled
+      showProcessing();
     }
 
     function initGoogle() {
@@ -1306,31 +1590,48 @@
     }
     initGoogle();
 
+    function showGoogleError() {
+      const btn = document.getElementById('google-btn');
+      btn.style.borderColor = 'var(--red)';
+      btn.style.color = 'var(--red)';
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Google sign-in unavailable — please fill in below';
+      btn.disabled = true;
+      btn.style.cursor = 'default';
+      document.getElementById('first-name').focus();
+    }
+
     document.getElementById('google-btn').addEventListener('click', () => {
-      if (typeof google !== 'undefined' && google.accounts) {
-        google.accounts.id.prompt((notification) => {
-          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-            // Fallback: use popup mode
+      if (typeof google === 'undefined' || !google.accounts) {
+        showGoogleError();
+        return;
+      }
+      google.accounts.id.prompt((notification) => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          try {
             google.accounts.oauth2.initTokenClient({
               client_id: GOOGLE_CLIENT_ID,
               scope: 'profile',
               callback: (tokenResponse) => {
+                if (tokenResponse.error) { showGoogleError(); return; }
                 fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                   headers: { Authorization: 'Bearer ' + tokenResponse.access_token }
                 })
-                .then(r => r.json())
+                .then(r => { if (!r.ok) throw new Error(); return r.json(); })
                 .then(user => {
                   document.getElementById('first-name').value = user.given_name || '';
                   document.getElementById('last-name').value = user.family_name || '';
-                });
-              }
+                  showProcessing();
+                })
+                .catch(() => showGoogleError());
+              },
+              error_callback: () => showGoogleError(),
             }).requestAccessToken();
-          }
-        });
-      }
+          } catch(e) { showGoogleError(); }
+        }
+      });
     });
 
-    // Step 2: Submit
+    // Step 2: Submit — show loader then congrats
     continueBtn2.addEventListener('click', () => {
       const fn = document.getElementById('first-name').value.trim();
       const ln = document.getElementById('last-name').value.trim();
@@ -1339,28 +1640,38 @@
         alert('Please fill in all fields to continue.');
         return;
       }
-      alert('Application started for ' + selectedAmount + '\\nName: ' + fn + ' ' + ln + '\\nDOB: ' + dob + '\\n\\nIn production, this would continue to the full application.');
+      // Show spinner in button
+      const origText = continueBtn2.innerHTML;
+      continueBtn2.innerHTML = '<span class="btn-spinner"></span>';
+      continueBtn2.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        // Close overlay
+        closeOverlay();
+        continueBtn2.innerHTML = origText;
+        continueBtn2.style.pointerEvents = '';
+
+        // Show congrats
+        setTimeout(() => {
+          document.getElementById('congrats-name').textContent = fn;
+          document.getElementById('congrats-amount').textContent = selectedAmount;
+          document.getElementById('congrats-screen').classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }, 300);
+      }, 1500);
     });
 
-    // FAQ accordion
-    document.querySelectorAll('.faq-question').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.parentElement;
-        const isOpen = item.classList.contains('open');
-
-        // Close all
-        document.querySelectorAll('.faq-item').forEach(i => {
-          i.classList.remove('open');
-          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-        });
-
-        // Toggle clicked
-        if (!isOpen) {
-          item.classList.add('open');
-          btn.setAttribute('aria-expanded', 'true');
-        }
-      });
+    // Request Loan button (demo)
+    document.getElementById('request-loan-btn').addEventListener('click', () => {
+      const btn = document.getElementById('request-loan-btn');
+      btn.innerHTML = '<span class="btn-spinner"></span>';
+      btn.style.pointerEvents = 'none';
+      setTimeout(() => {
+        btn.innerHTML = 'Request Submitted!';
+        btn.style.background = 'var(--green-text)';
+      }, 2000);
     });
+
   </script>
 
 </body>
